@@ -1,6 +1,7 @@
 plugins {
 	id("com.android.application")
 	id("org.jetbrains.kotlin.android")
+	id("kotlin-kapt")
 }
 
 android {
@@ -33,6 +34,11 @@ android {
 	kotlinOptions {
 		jvmTarget = "1.8"
 	}
+	
+	buildFeatures {
+		viewBinding = true
+		dataBinding = true
+	}
 }
 
 dependencies {
@@ -44,4 +50,9 @@ dependencies {
 	testImplementation("junit:junit:4.13.2")
 	androidTestImplementation("androidx.test.ext:junit:1.2.1")
 	androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
+	
+	// navigation component
+	val nav_version = "2.7.7"
+	implementation("androidx.navigation:navigation-fragment:$nav_version")
+	implementation("androidx.navigation:navigation-ui:$nav_version")
 }
