@@ -3,7 +3,9 @@ package com.example.rageamp.ui.main
 import com.example.rageamp.R
 import com.example.rageamp.base.BaseActivity
 import com.example.rageamp.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>() {
 	override fun getContentLayout(): Int = R.layout.activity_main
 	

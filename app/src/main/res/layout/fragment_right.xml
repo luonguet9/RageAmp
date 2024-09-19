@@ -14,5 +14,27 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="RIGHT FRAGMENT" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/bt_songs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dp100"
+                android:text="SONGS" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/bt_playlist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PLAYLIST" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

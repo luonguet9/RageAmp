@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">RageAmp</string>
+    <string name="no_data">No data</string>
+    <string name="denied_to_fetch_songs">You denied to fetch songs</string>
 </resources>

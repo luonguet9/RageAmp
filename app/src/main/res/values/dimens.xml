@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="button_height">56.00dp</dimen>
+
     <dimen name="dp0">0.00dp</dimen>
     <dimen name="dp1">1.00dp</dimen>
     <dimen name="dp2">2.00dp</dimen>

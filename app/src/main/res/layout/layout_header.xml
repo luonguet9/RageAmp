@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp64"
+    android:gravity="center_vertical">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/layout_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/bt_back"
+            android:layout_width="@dimen/button_height"
+            android:layout_height="@dimen/button_height"
+            android:layout_marginEnd="@dimen/dp8"
+            android:padding="@dimen/dp16"
+            android:src="@drawable/ic_back" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_previous_screen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Previous Screen"
+            android:textColor="@color/black"
+            android:textSize="@dimen/sp20" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>

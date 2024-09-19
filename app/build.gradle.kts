@@ -58,8 +58,19 @@ dependencies {
 	implementation("androidx.navigation:navigation-ui:$nav_version")
 	
 	// Dagger Hilt
-	implementation("com.google.dagger:hilt-android:2.44")
-	kapt("com.google.dagger:hilt-android-compiler:2.44")
+	implementation("com.google.dagger:hilt-android:2.52")
+	kapt("com.google.dagger:hilt-android-compiler:2.52")
+	
+	// Kotlin Coroutines
+	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
+	
+	// Lifecycle
+	val lifecycle_version = "2.8.5"
+	implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
+	implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version")
+	
+	// Glide
+	implementation("com.github.bumptech.glide:glide:4.15.1")
 }
 
 kapt {

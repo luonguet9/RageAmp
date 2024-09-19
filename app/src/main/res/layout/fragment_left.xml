@@ -18,14 +18,5 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/bt_playlist"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_margin="40dp"
-            android:text="Playlist"
-            app:layout_constraintTop_toBottomOf="@id/tv_title" />
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
