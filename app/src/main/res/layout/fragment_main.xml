@@ -7,40 +7,150 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/background"
+        android:paddingTop="@dimen/dp24">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/header_app"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_app_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp24"
+                android:text="@string/app_name"
+                android:textColor="@color/blue"
+                android:textSize="@dimen/sp32"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/bt_volume"
+                style="@style/ImageButtonHeader"
+                android:src="@drawable/ic_volume"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/slider"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/slider"
+                style="@style/MySlider"
+                android:layout_width="@dimen/dp300"
+                android:layout_height="wrap_content"
+                android:paddingVertical="@dimen/dp10"
+                app:layout_constraintEnd_toStartOf="@id/ll_control"
+                app:layout_constraintStart_toEndOf="@id/tv_app_name"
+                app:layout_constraintTop_toTopOf="parent"
+                app:thumbColor="@color/blue"
+                app:trackColorActive="@color/blue"
+                app:trackColorInactive="#D2D2D2" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_volume_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp8"
+                android:text="70"
+                android:textColor="@color/gray"
+                android:textSize="@dimen/sp24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/slider"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/ll_control"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/bt_search"
+                    style="@style/ImageButtonHeader"
+                    android:src="@drawable/ic_search" />
+
+                <com.google.android.material.divider.MaterialDivider
+                    style="@style/DividerIconHeader"
+                    app:dividerColor="@color/gray" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/bt_rotate"
+                    style="@style/ImageButtonHeader"
+                    android:src="@drawable/ic_screen_rotation" />
+
+                <com.google.android.material.divider.MaterialDivider
+                    style="@style/DividerIconHeader"
+                    app:dividerColor="@color/gray" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/bt_share"
+                    style="@style/ImageButtonHeader"
+                    android:src="@drawable/ic_share" />
+
+                <com.google.android.material.divider.MaterialDivider
+                    style="@style/DividerIconHeader"
+                    app:dividerColor="@color/gray" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/bt_setting_audio"
+                    style="@style/ImageButtonHeader"
+                    android:src="@drawable/ic_setting_audio" />
+
+                <com.google.android.material.divider.MaterialDivider
+                    style="@style/DividerIconHeader"
+                    app:dividerColor="@color/gray" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/bt_power"
+                    style="@style/ImageButtonHeader"
+                    android:src="@drawable/ic_power" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <!-- Left Fragment Navigation -->
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/leftNavHostFragment"
             android:name="androidx.navigation.fragment.NavHostFragment"
-            app:navGraph="@navigation/nav_left_graph"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/rightNavHostFragment"
-            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="@dimen/dp0"
+            android:layout_height="@dimen/dp0"
+            android:layout_weight="1"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_weight="1"/>
+            app:layout_constraintEnd_toStartOf="@+id/rightNavHostFragment"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/header_app"
+            app:navGraph="@navigation/nav_left_graph" />
 
         <com.google.android.material.divider.MaterialDivider
             android:layout_width="1dp"
-            android:layout_marginVertical="16dp"
-            android:layout_height="match_parent"
+            android:layout_height="@dimen/dp0"
+            android:layout_marginTop="@dimen/dp50"
+            android:layout_marginBottom="@dimen/dp100"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/rightNavHostFragment"
-            app:layout_constraintStart_toEndOf="@id/leftNavHostFragment"/>
+            app:layout_constraintStart_toEndOf="@id/leftNavHostFragment"
+            app:layout_constraintTop_toBottomOf="@id/header_app" />
 
         <!-- Right Fragment Navigation -->
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/rightNavHostFragment"
             android:name="androidx.navigation.fragment.NavHostFragment"
-            app:navGraph="@navigation/nav_right_graph"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            app:layout_constraintStart_toEndOf="@+id/leftNavHostFragment"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="@dimen/dp0"
+            android:layout_height="@dimen/dp0"
+            android:layout_weight="1"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_weight="1"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/leftNavHostFragment"
+            app:layout_constraintTop_toBottomOf="@id/header_app"
+            app:navGraph="@navigation/nav_right_graph" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -10,6 +10,7 @@ import com.example.rageamp.R
 import com.example.rageamp.base.BaseFragment
 import com.example.rageamp.databinding.FragmentSongBinding
 import com.example.rageamp.ui.adapter.SongAdapter
+import com.example.rageamp.ui.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -43,7 +44,7 @@ class SongFragment : BaseFragment<FragmentSongBinding>() {
 	private fun setupRecyclerView() {
 		songAdapter = SongAdapter(
 			onClickItemSong = { song ->
-			
+				( requireActivity() as MainActivity).startMusicService(song)
 			}
 		)
 		

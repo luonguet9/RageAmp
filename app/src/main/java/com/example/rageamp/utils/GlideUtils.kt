@@ -1,11 +1,19 @@
 package com.example.rageamp.utils
 
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.Color
+import android.graphics.drawable.Drawable
+import android.util.Log
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import com.example.rageamp.R
 
 object GlideUtils {
+    private const val TAG = "GlideUtils"
     fun loadImageFromUrl(
         image: ImageView,
         url: Any?,
@@ -21,5 +29,34 @@ object GlideUtils {
         glideRequest.into(image)
     }
     
-
+    fun loadImageFromUrlWithCallback(
+        context: Context,
+        url: String?,
+        onFinished: (Bitmap) -> Unit
+    ) {
+        Glide.with(context)
+            .asBitmap()
+            .load(url)
+            .placeholder(R.drawable.image_default_song)
+            .error(R.drawable.image_default_song)
+            .into(object : CustomTarget<Bitmap>() {
+                override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                    Log.i(TAG, "onResourceReady: resource: $resource")
+                    onFinished(resource)
+                }
+                
+                override fun onLoadCleared(placeholder: Drawable?) {}
+                
+                override fun onLoadFailed(errorDrawable: Drawable?) {
+                    super.onLoadFailed(errorDrawable)
+                    Log.w(TAG, "onLoadFailed: errorDrawable: $errorDrawable")
+                    /*val bitmap = (errorDrawable as BitmapDrawable).bitmap
+                    onFinished(bitmap)*/
+                    val bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888)
+                    bitmap.eraseColor(Color.GRAY)
+                    onFinished(bitmap)
+                }
+            })
+    }
+    
 }

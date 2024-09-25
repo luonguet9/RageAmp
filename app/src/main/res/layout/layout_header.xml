@@ -2,6 +2,7 @@
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/dp64"
+    android:background="@color/background"
     android:gravity="center_vertical">
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -12,8 +13,8 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/bt_back"
-            android:layout_width="@dimen/button_height"
-            android:layout_height="@dimen/button_height"
+            android:layout_width="@dimen/button_size"
+            android:layout_height="@dimen/button_size"
             android:layout_marginEnd="@dimen/dp8"
             android:padding="@dimen/dp16"
             android:src="@drawable/ic_back" />
@@ -23,10 +24,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Previous Screen"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="@dimen/sp20" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
-
 
 </androidx.appcompat.widget.LinearLayoutCompat>

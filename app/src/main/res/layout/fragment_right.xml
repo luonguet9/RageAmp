@@ -2,18 +2,137 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+        <variable
+            name="song"
+            type="com.example.rageamp.data.model.Song" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/background"
+        android:paddingHorizontal="@dimen/dp56"
+        android:paddingTop="@dimen/dp80">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_song_name"
+            android:layout_width="@dimen/dp0"
+            android:layout_height="wrap_content"
+            android:text="@{song.title}"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp24"
+            app:layout_constraintEnd_toStartOf="@id/bt_repeat"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_song_artist"
+            android:layout_width="@dimen/dp0"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@{song.artist}"
+            android:textColor="@color/blue"
+            android:textSize="@dimen/sp18"
+            app:layout_constraintEnd_toStartOf="@id/bt_repeat"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_song_name" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/bt_repeat"
+            style="@style/ImageButton"
+            android:layout_marginTop="@dimen/dp16"
+            android:layout_marginEnd="@dimen/dp32"
+            android:src="@drawable/ic_repeat_off"
+            app:layout_constraintEnd_toStartOf="@id/bt_shuffle"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/bt_shuffle"
+            style="@style/ImageButton"
+            android:layout_marginTop="@dimen/dp16"
+            android:src="@drawable/ic_shuffle_off"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.slider.Slider
+            android:id="@+id/slider"
+            style="@style/MySlider"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="RIGHT FRAGMENT" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp100"
+            android:paddingVertical="@dimen/dp10"
+            app:layout_constraintTop_toBottomOf="@id/tv_song_artist"
+            app:thumbColor="@color/blue"
+            app:trackColorActive="@color/blue"
+            app:trackColorInactive="#D2D2D2" />
+
+        <RelativeLayout
+            android:id="@+id/time_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp12"
+            app:layout_constraintTop_toBottomOf="@id/slider">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_run_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/seekbar_default"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_total_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:text="@string/seekbar_default"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+        </RelativeLayout>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp48"
+            app:layout_constraintTop_toBottomOf="@id/time_info">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/bt_previous"
+                style="@style/ImageButton"
+                android:src="@drawable/ic_previous"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/bt_rewind_back"
+                style="@style/ImageButton"
+                android:src="@drawable/ic_rewind_back"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/bt_play_or_pause"
+                style="@style/ImageButton"
+                android:src="@drawable/ic_play"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/bt_rewind_forward"
+                style="@style/ImageButton"
+                android:src="@drawable/ic_rewind_forward"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/bt_next"
+                style="@style/ImageButton"
+                android:src="@drawable/ic_next"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
