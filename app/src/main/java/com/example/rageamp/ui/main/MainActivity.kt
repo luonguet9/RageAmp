@@ -18,10 +18,15 @@ import com.example.rageamp.data.model.Song
 import com.example.rageamp.databinding.ActivityMainBinding
 import com.example.rageamp.service.MusicService
 import com.example.rageamp.ui.SharedViewModel
+import com.example.rageamp.utils.ACTION_CHANGE_THEME
+import com.example.rageamp.utils.BLUE_THEME
+import com.example.rageamp.utils.GREEN_THEME
 import com.example.rageamp.utils.MUSIC_ACTION
 import com.example.rageamp.utils.MUSIC_ACTION_SERVICE
+import com.example.rageamp.utils.RED_THEME
 import com.example.rageamp.utils.SEND_ACTION_TO_ACTIVITY
 import com.example.rageamp.utils.SONG_OBJECT
+import com.example.rageamp.utils.THEME
 import com.example.rageamp.utils.enums.MusicAction
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -52,7 +57,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 		}
 		
 	}
-	private val broadcastReceiver = object : BroadcastReceiver() {
+	private val musicActionReceiver = object : BroadcastReceiver() {
 		override fun onReceive(context: Context?, intent: Intent?) {
 			intent?.getIntExtra(MUSIC_ACTION, 0)?.let { action ->
 				Log.i(TAG, "onReceive: action: $action")
@@ -65,6 +70,21 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 		}
 	}
 	
+	private val themeChangeReceiver = object : BroadcastReceiver() {
+		override fun onReceive(context: Context?, intent: Intent?) {
+			if (intent?.action == ACTION_CHANGE_THEME) {
+				Log.i(TAG, "themeChangeReceiver: ${intent.getStringExtra(THEME)}")
+				when (intent.getStringExtra(THEME)) {
+					BLUE_THEME -> context?.setTheme(R.style.Theme_Blue)
+					RED_THEME -> context?.setTheme(R.style.Theme_Red)
+					GREEN_THEME -> context?.setTheme(R.style.Theme_Green)
+				}
+				this@MainActivity.recreate()
+				//window.decorView.invalidate()
+			}
+		}
+	}
+	
 	private val sharedViewModel: SharedViewModel by lazy {
 		ViewModelProvider(this)[SharedViewModel::class.java]
 	}
@@ -72,12 +92,15 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 	override fun getContentLayout(): Int = R.layout.activity_main
 	
 	override fun initView() {
+		applySavedTheme(this)
 		WindowCompat.setDecorFitsSystemWindows(window, false)
 	}
 	
 	override fun initListener() {
 		LocalBroadcastManager.getInstance(applicationContext)
-			.registerReceiver(broadcastReceiver, IntentFilter(SEND_ACTION_TO_ACTIVITY))
+			.registerReceiver(musicActionReceiver, IntentFilter(SEND_ACTION_TO_ACTIVITY))
+		LocalBroadcastManager.getInstance(applicationContext)
+			.registerReceiver(themeChangeReceiver, IntentFilter(ACTION_CHANGE_THEME))
 	}
 	
 	override fun observerLiveData() {
@@ -86,7 +109,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 	
 	override fun onDestroy() {
 		super.onDestroy()
-		LocalBroadcastManager.getInstance(this).unregisterReceiver(broadcastReceiver)
+		LocalBroadcastManager.getInstance(this).unregisterReceiver(musicActionReceiver)
+		LocalBroadcastManager.getInstance(this).unregisterReceiver(themeChangeReceiver)
 	}
 	
 	fun startMusicService(song: Song) {
@@ -123,6 +147,15 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 			startService(this)
 		}
 	}
+	
+	private fun applySavedTheme(context: Context) {
+		when (sharedViewModel.getTheme()) {
+			BLUE_THEME -> context.setTheme(R.style.Theme_Blue)
+			RED_THEME -> context.setTheme(R.style.Theme_Red)
+			GREEN_THEME -> context.setTheme(R.style.Theme_Green)
+		}
+	}
+	
 	
 	companion object {
 		private val TAG = MainActivity::class.simpleName

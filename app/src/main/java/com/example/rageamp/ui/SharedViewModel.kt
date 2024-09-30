@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.rageamp.data.model.Song
+import com.example.rageamp.repository.ThemeRepository
 import com.example.rageamp.utils.enums.NavigationAction
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -15,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SharedViewModel @Inject constructor(
-
+	private val themeRepository: ThemeRepository,
 ) : ViewModel() {
 	private val _navigationAction = MutableLiveData<NavigationAction>()
 	val navigationAction: LiveData<NavigationAction> get() = _navigationAction
@@ -56,5 +57,13 @@ class SharedViewModel @Inject constructor(
 				_currentSongs.emit(songs)
 			}
 		}
+	}
+	
+	fun saveTheme(theme: String) {
+		themeRepository.saveTheme(theme)
+	}
+	
+	fun getTheme(): String {
+		return themeRepository.getTheme()
 	}
 }

@@ -8,4 +8,25 @@
     </style>
 
     <style name="Theme.RageAmp" parent="Base.Theme.RageAmp" />
+
+    <!-- Blue theme -->
+    <style name="Theme.Blue" parent="Base.Theme.RageAmp">
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimaryDark">@color/blue</item>
+        <item name="colorAccent">@color/blue</item>
+    </style>
+
+    <!-- Red theme -->
+    <style name="Theme.Red" parent="Base.Theme.RageAmp">
+        <item name="colorPrimary">@color/red</item>
+        <item name="colorPrimaryDark">@color/red</item>
+        <item name="colorAccent">@color/red</item>
+    </style>
+
+    <!-- Green theme -->
+    <style name="Theme.Green" parent="Base.Theme.RageAmp">
+        <item name="colorPrimary">@color/green</item>
+        <item name="colorPrimaryDark">@color/green</item>
+        <item name="colorAccent">@color/green</item>
+    </style>
 </resources>

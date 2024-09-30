@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="@{song.artist}"
-            android:textColor="@color/blue"
+            android:textColor="?attr/colorPrimary"
             android:textSize="@dimen/sp18"
             app:layout_constraintEnd_toStartOf="@id/bt_repeat"
             app:layout_constraintStart_toStartOf="parent"
@@ -62,8 +62,6 @@
             android:layout_marginTop="@dimen/dp100"
             android:paddingVertical="@dimen/dp10"
             app:layout_constraintTop_toBottomOf="@id/tv_song_artist"
-            app:thumbColor="@color/blue"
-            app:trackColorActive="@color/blue"
             app:trackColorInactive="#D2D2D2" />
 
         <RelativeLayout

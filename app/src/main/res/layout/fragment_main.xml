@@ -23,7 +23,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dp24"
                 android:text="@string/app_name"
-                android:textColor="@color/blue"
+                android:textColor="?attr/colorPrimary"
                 android:textSize="@dimen/sp32"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -49,8 +49,6 @@
                 app:layout_constraintEnd_toStartOf="@id/ll_control"
                 app:layout_constraintStart_toEndOf="@id/tv_app_name"
                 app:layout_constraintTop_toTopOf="parent"
-                app:thumbColor="@color/blue"
-                app:trackColorActive="@color/blue"
                 app:trackColorInactive="#D2D2D2" />
 
             <com.google.android.material.textview.MaterialTextView

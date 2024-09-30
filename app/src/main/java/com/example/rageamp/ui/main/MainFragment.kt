@@ -6,11 +6,23 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.media.AudioManager
 import android.util.Log
+import android.widget.Toast
+import androidx.fragment.app.activityViewModels
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.rageamp.R
 import com.example.rageamp.base.BaseFragment
 import com.example.rageamp.databinding.FragmentMainBinding
+import com.example.rageamp.ui.SharedViewModel
+import com.example.rageamp.utils.ACTION_CHANGE_THEME
+import com.example.rageamp.utils.BLUE_THEME
+import com.example.rageamp.utils.GREEN_THEME
+import com.example.rageamp.utils.RED_THEME
+import com.example.rageamp.utils.THEME
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class MainFragment : BaseFragment<FragmentMainBinding>() {
+	private val sharedViewModel: SharedViewModel by activityViewModels()
+	
 	private val audioManager: AudioManager by lazy {
 		context?.getSystemService(Context.AUDIO_SERVICE) as AudioManager
 	}
@@ -39,6 +51,29 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
 				audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, newVolume, 0)
 				updateVolumeDisplay(value.toInt())
 			}
+		}
+		
+		binding.btSettingAudio.setOnClickListener {
+			val themes = arrayOf(BLUE_THEME, RED_THEME, GREEN_THEME)
+			val currentTheme = sharedViewModel.getTheme()
+			var selectedItem = themes.indexOf(currentTheme)
+			MaterialAlertDialogBuilder(requireContext())
+				.setTitle(getString(R.string.choose_theme))
+				.setSingleChoiceItems(themes, selectedItem) { dialog, which ->
+					selectedItem = which
+				}
+				.setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
+					dialog.dismiss()
+				}
+				.setPositiveButton(getString(R.string.ok)) { dialog, _ ->
+					val intent = Intent(ACTION_CHANGE_THEME).apply {
+						putExtra(THEME, themes[selectedItem])
+					}
+					LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
+					sharedViewModel.saveTheme(themes[selectedItem])
+					Toast.makeText(context, "You chose ${themes[selectedItem]} theme", Toast.LENGTH_SHORT).show()
+				}
+				.show()
 		}
 	}
 	

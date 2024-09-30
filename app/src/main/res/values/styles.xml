@@ -24,7 +24,9 @@
 
     <style name="My_Tooltip" parent="Widget.MaterialComponents.Tooltip">
         <!-- background color of the Tooltip -->
-        <item name="backgroundTint">@color/blue</item>
+        <item name="backgroundTint">?attr/colorPrimary</item>
+        <item name="thumbColor">?attr/colorPrimary</item>
+        <item name="trackColor">?attr/colorPrimary</item>
     </style>
 
     <style name="ThemeOverlay.Slider" parent="">
