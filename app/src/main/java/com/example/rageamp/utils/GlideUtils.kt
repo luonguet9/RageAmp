@@ -13,7 +13,7 @@ import com.bumptech.glide.request.transition.Transition
 import com.example.rageamp.R
 
 object GlideUtils {
-    private const val TAG = "GlideUtils"
+    private val TAG = GlideUtils::class.simpleName
     fun loadImageFromUrl(
         image: ImageView,
         url: Any?,

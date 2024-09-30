@@ -49,6 +49,6 @@ class LeftFragment : BaseFragment<FragmentLeftBinding>() {
 	}
 	
 	companion object {
-		private const val TAG = "LeftFragment"
+		private val TAG = LeftFragment::class.simpleName
 	}
 }

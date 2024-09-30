@@ -39,7 +39,7 @@ class MusicService : Service() {
 		MediaSessionCompat(this, MEDIA_SESSION_COMPAT)
 	}
 	
-	var currentSong: Song? = null
+	private var currentSong: Song? = null
 	private var songs = listOf<Song>()
 	
 	private val binder = MusicBinder()
@@ -54,6 +54,7 @@ class MusicService : Service() {
 	}
 	
 	override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+		Log.v(TAG, "onStartCommand: ------------")
 		val song = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
 			intent?.getSerializableExtra(SONG_OBJECT, Song::class.java)
 		} else {
@@ -70,7 +71,7 @@ class MusicService : Service() {
 		}
 		
 		val actionReceive = intent?.getIntExtra(MUSIC_ACTION_SERVICE, -1)
-		handleActionMusic(actionReceive)
+		handleMusicAction(actionReceive)
 		return START_NOT_STICKY
 	}
 	
@@ -258,7 +259,18 @@ class MusicService : Service() {
 		//sendActionToActivity(ActionMusic.PREVIOUS.action)
 	}
 	
-	private fun handleActionMusic(action: Int?) {
+	private fun rewindMusic(action: Int) {
+		val currentPosition = exoPlayer.currentPosition
+		val newPosition = when (action) {
+			MusicAction.REWIND_BACK.action -> (currentPosition - REWIND_TIME).coerceAtLeast(0)
+			else -> (currentPosition + REWIND_TIME).coerceAtMost(exoPlayer.duration)
+		}
+		exoPlayer.seekTo(newPosition)
+	}
+
+	
+	private fun handleMusicAction(action: Int?) {
+		Log.i(TAG, "handleMusicAction: action: $action")
 		when (action) {
 			MusicAction.PAUSE.action -> {
 				pauseMusic()
@@ -274,6 +286,14 @@ class MusicService : Service() {
 			
 			MusicAction.PREVIOUS.action -> {
 				previousMusic()
+			}
+			
+			MusicAction.REWIND_BACK.action -> {
+				rewindMusic(MusicAction.REWIND_BACK.action)
+			}
+			
+			MusicAction.REWIND_FORWARD.action -> {
+				rewindMusic(MusicAction.REWIND_FORWARD.action)
 			}
 		}
 	}
@@ -294,6 +314,7 @@ class MusicService : Service() {
 	private fun sendActionToActivity(action: Int) {
 		val intent = Intent(SEND_ACTION_TO_ACTIVITY).apply {
 			putExtra(MUSIC_ACTION, action)
+			putExtra(SONG_OBJECT, currentSong)
 		}
 		LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
 	}
@@ -302,7 +323,12 @@ class MusicService : Service() {
 		return songs.indexOfFirst { it.id == currentSong?.id }
 	}
 	
+	fun setCurrentSongs(songs: List<Song>) {
+		this.songs = songs
+	}
+	
 	companion object {
-		private const val TAG = "MusicService"
+		private val TAG = MusicService::class.simpleName
+		private const val REWIND_TIME = 5000
 	}
 }

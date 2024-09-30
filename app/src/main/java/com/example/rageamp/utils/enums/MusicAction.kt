@@ -5,5 +5,7 @@ enum class MusicAction(val action: Int, val actionName: String) {
     PAUSE(1, "PAUSE"),
     RESUME(2, "RESUME"),
     NEXT(3, "NEXT"),
-    PREVIOUS(4, "PREVIOUS")
+    PREVIOUS(4, "PREVIOUS"),
+    REWIND_BACK(5, "REWIND_BACK"),
+    REWIND_FORWARD(6, "REWIND_FORWARD"),
 }

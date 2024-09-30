@@ -10,6 +10,7 @@ import android.os.IBinder
 import android.util.Log
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.rageamp.R
 import com.example.rageamp.base.BaseActivity
@@ -23,6 +24,7 @@ import com.example.rageamp.utils.SEND_ACTION_TO_ACTIVITY
 import com.example.rageamp.utils.SONG_OBJECT
 import com.example.rageamp.utils.enums.MusicAction
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>() {
@@ -31,12 +33,20 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 	private var isServiceConnected = false
 	private val serviceConnection = object : ServiceConnection {
 		override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+			Log.v(TAG, "onServiceConnected: ------------")
 			val binder = service as MusicService.MusicBinder
 			musicService = binder.getService()
 			isServiceConnected = true
+			lifecycleScope.launch {
+				sharedViewModel.currentSongs.collect {songs->
+					Log.i(TAG, "currentSongs: $songs")
+					musicService?.setCurrentSongs(songs)
+				}
+			}
 		}
 		
 		override fun onServiceDisconnected(name: ComponentName?) {
+			Log.v(TAG, "onServiceDisconnected: ------------")
 			musicService = null
 			isServiceConnected = false
 		}
@@ -45,7 +55,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 	private val broadcastReceiver = object : BroadcastReceiver() {
 		override fun onReceive(context: Context?, intent: Intent?) {
 			intent?.getIntExtra(MUSIC_ACTION, 0)?.let { action ->
+				Log.i(TAG, "onReceive: action: $action")
 				handleActionMusic(action)
+			}
+			(intent?.getSerializableExtra(SONG_OBJECT) as Song?)?.let { song->
+				Log.i(TAG, "onReceive: song: $song")
+				sharedViewModel.setCurrentSong(song)
 			}
 		}
 	}
@@ -89,9 +104,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 		Log.i("handleActionMusic", "action: $action")
 		when (action) {
 			MusicAction.START.action -> {
-				musicService?.currentSong?.let { song ->
-					sharedViewModel.setCurrentSong(song)
-				}
 				sharedViewModel.setPlayingStatus(true)
 			}
 			
@@ -110,6 +122,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 			putExtra(MUSIC_ACTION_SERVICE, action)
 			startService(this)
 		}
+	}
+	
+	companion object {
+		private val TAG = MainActivity::class.simpleName
 	}
 	
 }
