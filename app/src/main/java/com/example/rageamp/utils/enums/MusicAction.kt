@@ -8,4 +8,6 @@ enum class MusicAction(val action: Int, val actionName: String) {
     PREVIOUS(4, "PREVIOUS"),
     REWIND_BACK(5, "REWIND_BACK"),
     REWIND_FORWARD(6, "REWIND_FORWARD"),
+    REPEAT(7, "REPEAT"),
+    SHUFFLE(8, "SHUFFLE"),
 }

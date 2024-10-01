@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.rageamp.data.model.Song
+import com.example.rageamp.repository.PlayerModeRepository
 import com.example.rageamp.repository.ThemeRepository
 import com.example.rageamp.utils.enums.NavigationAction
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,6 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SharedViewModel @Inject constructor(
 	private val themeRepository: ThemeRepository,
+	private val playerModeRepository: PlayerModeRepository
 ) : ViewModel() {
 	private val _navigationAction = MutableLiveData<NavigationAction>()
 	val navigationAction: LiveData<NavigationAction> get() = _navigationAction
@@ -30,6 +32,14 @@ class SharedViewModel @Inject constructor(
 	private val _isPlaying = MutableLiveData(false)
 	val isPlaying: LiveData<Boolean>
 		get() = _isPlaying
+	
+	private val _shuffleModeEnabled = MutableLiveData(false)
+	val shuffleModeEnabled: LiveData<Boolean>
+		get() = _shuffleModeEnabled
+	
+	private val _repeatMode = MutableLiveData(0)
+	val repeatMode: LiveData<Int>
+		get() = _repeatMode
 	
 	fun navigate(action: NavigationAction) {
 		_navigationAction.value = action
@@ -56,6 +66,28 @@ class SharedViewModel @Inject constructor(
 			viewModelScope.launch(Dispatchers.IO) {
 				_currentSongs.emit(songs)
 			}
+		}
+	}
+	
+	fun getShuffleModeEnabled() {
+		val currentShuffleModeEnable = playerModeRepository.getCurrentShuffleModeEnable()
+		setShuffleModeEnabled(currentShuffleModeEnable)
+	}
+	
+	fun setShuffleModeEnabled(shuffleModeEnabled: Boolean) {
+		if (_shuffleModeEnabled.value != shuffleModeEnabled) {
+			_shuffleModeEnabled.value = shuffleModeEnabled
+		}
+	}
+	
+	fun getRepeatMode() {
+		val currentRepeatMode = playerModeRepository.getCurrentRepeatMode()
+		setRepeatMode(currentRepeatMode)
+	}
+	
+	fun setRepeatMode(repeatMode: Int) {
+		if (_repeatMode.value != repeatMode) {
+			_repeatMode.value = repeatMode
 		}
 	}
 	

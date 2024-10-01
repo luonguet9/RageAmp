@@ -33,4 +33,17 @@
         <!-- color used by the text in the Tooltip -->
         <item name="colorOnPrimary">@color/white</item>
     </style>
+
+    <style name="Bitrate_Text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">@dimen/dp8</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/sp18</item>
+        <item name="android:background">@drawable/bg_bitrate</item>
+        <item name="android:paddingStart">@dimen/dp16</item>
+        <item name="android:paddingEnd">@dimen/dp16</item>
+        <item name="android:paddingTop">@dimen/dp10</item>
+        <item name="android:paddingBottom">@dimen/dp10</item>
+    </style>
 </resources>

@@ -7,8 +7,6 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.ServiceConnection
 import android.os.IBinder
-import android.util.Log
-import androidx.core.view.WindowCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
@@ -21,10 +19,13 @@ import com.example.rageamp.ui.SharedViewModel
 import com.example.rageamp.utils.ACTION_CHANGE_THEME
 import com.example.rageamp.utils.BLUE_THEME
 import com.example.rageamp.utils.GREEN_THEME
+import com.example.rageamp.utils.Logger
 import com.example.rageamp.utils.MUSIC_ACTION
 import com.example.rageamp.utils.MUSIC_ACTION_SERVICE
 import com.example.rageamp.utils.RED_THEME
+import com.example.rageamp.utils.REPEAT_MODE
 import com.example.rageamp.utils.SEND_ACTION_TO_ACTIVITY
+import com.example.rageamp.utils.SHUFFLE_MODE
 import com.example.rageamp.utils.SONG_OBJECT
 import com.example.rageamp.utils.THEME
 import com.example.rageamp.utils.enums.MusicAction
@@ -38,20 +39,20 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 	private var isServiceConnected = false
 	private val serviceConnection = object : ServiceConnection {
 		override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-			Log.v(TAG, "onServiceConnected: ------------")
+			Logger.v(TAG, "onServiceConnected: ------------")
 			val binder = service as MusicService.MusicBinder
 			musicService = binder.getService()
 			isServiceConnected = true
 			lifecycleScope.launch {
 				sharedViewModel.currentSongs.collect {songs->
-					Log.i(TAG, "currentSongs: $songs")
+					Logger.i(TAG, "currentSongs: $songs")
 					musicService?.setCurrentSongs(songs)
 				}
 			}
 		}
 		
 		override fun onServiceDisconnected(name: ComponentName?) {
-			Log.v(TAG, "onServiceDisconnected: ------------")
+			Logger.v(TAG, "onServiceDisconnected: ------------")
 			musicService = null
 			isServiceConnected = false
 		}
@@ -60,12 +61,20 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 	private val musicActionReceiver = object : BroadcastReceiver() {
 		override fun onReceive(context: Context?, intent: Intent?) {
 			intent?.getIntExtra(MUSIC_ACTION, 0)?.let { action ->
-				Log.i(TAG, "onReceive: action: $action")
+				Logger.i(TAG, "musicActionReceiver: action: $action")
 				handleActionMusic(action)
 			}
 			(intent?.getSerializableExtra(SONG_OBJECT) as Song?)?.let { song->
-				Log.i(TAG, "onReceive: song: $song")
+				Logger.i(TAG, "musicActionReceiver: song: $song")
 				sharedViewModel.setCurrentSong(song)
+			}
+			intent?.getIntExtra(REPEAT_MODE, 0)?.let { repeatMode ->
+				Logger.i(TAG, "musicActionReceiver: repeatMode: $repeatMode")
+				sharedViewModel.setRepeatMode(repeatMode)
+			}
+			intent?.getBooleanExtra(SHUFFLE_MODE, false)?.let { shuffleMode ->
+				Logger.i(TAG, "musicActionReceiver: shuffleMode: $shuffleMode")
+				sharedViewModel.setShuffleModeEnabled(shuffleMode)
 			}
 		}
 	}
@@ -73,7 +82,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 	private val themeChangeReceiver = object : BroadcastReceiver() {
 		override fun onReceive(context: Context?, intent: Intent?) {
 			if (intent?.action == ACTION_CHANGE_THEME) {
-				Log.i(TAG, "themeChangeReceiver: ${intent.getStringExtra(THEME)}")
+				Logger.i(TAG, "themeChangeReceiver: ${intent.getStringExtra(THEME)}")
 				when (intent.getStringExtra(THEME)) {
 					BLUE_THEME -> context?.setTheme(R.style.Theme_Blue)
 					RED_THEME -> context?.setTheme(R.style.Theme_Red)
@@ -93,7 +102,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 	
 	override fun initView() {
 		applySavedTheme(this)
-		WindowCompat.setDecorFitsSystemWindows(window, false)
+		//WindowCompat.setDecorFitsSystemWindows(window, false)
 	}
 	
 	override fun initListener() {
@@ -125,7 +134,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 	}
 	
 	private fun handleActionMusic(action: Int) {
-		Log.i("handleActionMusic", "action: $action")
+		Logger.i("handleActionMusic", "action: $action")
 		when (action) {
 			MusicAction.START.action -> {
 				sharedViewModel.setPlayingStatus(true)

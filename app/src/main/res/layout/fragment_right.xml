@@ -2,6 +2,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
+        <import type="android.view.View" />
+
         <variable
             name="song"
             type="com.example.rageamp.data.model.Song" />
@@ -18,6 +21,8 @@
             android:id="@+id/tv_song_name"
             android:layout_width="@dimen/dp0"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:lines="1"
             android:text="@{song.title}"
             android:textColor="@color/white"
             android:textSize="@dimen/sp24"
@@ -90,6 +95,7 @@
         </RelativeLayout>
 
         <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/ll_control"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp48"
@@ -129,6 +135,31 @@
                 android:src="@drawable/ic_next"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp48"
+            app:layout_constraintTop_toBottomOf="@id/ll_control">
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/Bitrate_Text"
+                android:text="@{String.valueOf(song.bitrate)+ ' ' + @string/khz}" />
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/Bitrate_Text"
+                android:text="@{String.valueOf(song.bitrate) + ' ' + @string/kbps}" />
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/Bitrate_Text"
+                android:text="@{song.mimeType}" />
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/Bitrate_Text"
+                android:text="@{String.valueOf(song.year)}"
+                android:visibility="@{song.year == 0 ? View.GONE : View.VISIBLE}" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

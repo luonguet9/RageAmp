@@ -1,12 +1,12 @@
 package com.example.rageamp.ui.left
 
-import android.util.Log
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.rageamp.R
 import com.example.rageamp.base.BaseFragment
 import com.example.rageamp.databinding.FragmentLeftBinding
 import com.example.rageamp.ui.SharedViewModel
+import com.example.rageamp.utils.Logger
 import com.example.rageamp.utils.enums.NavigationAction
 
 class LeftFragment : BaseFragment<FragmentLeftBinding>() {
@@ -24,7 +24,7 @@ class LeftFragment : BaseFragment<FragmentLeftBinding>() {
 	
 	override fun observerLiveData() {
 		sharedViewModel.navigationAction.observeForever { action ->
-			Log.i(TAG, "NavigationAction: action: $action")
+			Logger.i(TAG, "NavigationAction: action: $action")
 			
 			when (action) {
 				NavigationAction.TO_SONG_FRAGMENT -> {
@@ -38,7 +38,7 @@ class LeftFragment : BaseFragment<FragmentLeftBinding>() {
 				}
 				
 				else -> {
-					Log.w(TAG, "NavigationAction: ACTION IS NULL OR NOT EXIST ACTION")
+					Logger.w(TAG, "NavigationAction: ACTION IS NULL OR NOT EXIST ACTION")
 				}
 			}
 		}

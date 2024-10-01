@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.Drawable
-import android.util.Log
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -41,7 +40,7 @@ object GlideUtils {
             .error(R.drawable.image_default_song)
             .into(object : CustomTarget<Bitmap>() {
                 override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                    Log.i(TAG, "onResourceReady: resource: $resource")
+                    Logger.i(TAG, "onResourceReady: resource: $resource")
                     onFinished(resource)
                 }
                 
@@ -49,7 +48,7 @@ object GlideUtils {
                 
                 override fun onLoadFailed(errorDrawable: Drawable?) {
                     super.onLoadFailed(errorDrawable)
-                    Log.w(TAG, "onLoadFailed: errorDrawable: $errorDrawable")
+                    Logger.w(TAG, "onLoadFailed: errorDrawable: $errorDrawable")
                     /*val bitmap = (errorDrawable as BitmapDrawable).bitmap
                     onFinished(bitmap)*/
                     val bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888)

@@ -8,7 +8,6 @@ import android.os.Binder
 import android.os.Build
 import android.os.IBinder
 import android.support.v4.media.session.MediaSessionCompat
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.media3.common.MediaItem
@@ -16,15 +15,19 @@ import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
 import com.example.rageamp.R
 import com.example.rageamp.broadcast_receive.ActionReceive
+import com.example.rageamp.data.data_source.pref.SharedPreferencesManager
 import com.example.rageamp.data.model.Song
 import com.example.rageamp.ui.main.MainActivity
 import com.example.rageamp.utils.GlideUtils
+import com.example.rageamp.utils.Logger
 import com.example.rageamp.utils.MEDIA_SESSION_COMPAT
 import com.example.rageamp.utils.MUSIC_ACTION
 import com.example.rageamp.utils.MUSIC_ACTION_SERVICE
 import com.example.rageamp.utils.MUSIC_CHANNEL_ID
 import com.example.rageamp.utils.NOTIFICATION_ID
+import com.example.rageamp.utils.REPEAT_MODE
 import com.example.rageamp.utils.SEND_ACTION_TO_ACTIVITY
+import com.example.rageamp.utils.SHUFFLE_MODE
 import com.example.rageamp.utils.SONG_OBJECT
 import com.example.rageamp.utils.enums.MusicAction
 import dagger.hilt.android.AndroidEntryPoint
@@ -34,6 +37,9 @@ import javax.inject.Inject
 class MusicService : Service() {
 	@Inject
 	lateinit var exoPlayer: ExoPlayer
+	
+	@Inject
+	lateinit var sharedPreferencesManager: SharedPreferencesManager
 	
 	private val mediaSession: MediaSessionCompat by lazy {
 		MediaSessionCompat(this, MEDIA_SESSION_COMPAT)
@@ -50,11 +56,15 @@ class MusicService : Service() {
 	
 	override fun onCreate() {
 		super.onCreate()
+		exoPlayer.apply {
+			repeatMode = sharedPreferencesManager.get(REPEAT_MODE, Player.REPEAT_MODE_OFF)
+			shuffleModeEnabled = sharedPreferencesManager.get(SHUFFLE_MODE, false)
+		}
 		initListener()
 	}
 	
 	override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-		Log.v(TAG, "onStartCommand: ------------")
+		Logger.v(TAG, "onStartCommand: ------------")
 		val song = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
 			intent?.getSerializableExtra(SONG_OBJECT, Song::class.java)
 		} else {
@@ -103,7 +113,7 @@ class MusicService : Service() {
 			}
 			
 			override fun onIsPlayingChanged(isPlaying: Boolean) {
-				Log.i(TAG, "onIsPlayingChanged: $isPlaying")
+				Logger.i(TAG, "onIsPlayingChanged: $isPlaying")
 				sendNotification()
 				super.onIsPlayingChanged(isPlaying)
 				
@@ -138,7 +148,7 @@ class MusicService : Service() {
 	}
 	
 	private fun sendNotification() {
-		Log.i(TAG, "sendNotification----------")
+		Logger.i(TAG, "sendNotification----------")
 		val notificationIntent = Intent(this, MainActivity::class.java).apply {
 			flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
 		}
@@ -267,10 +277,29 @@ class MusicService : Service() {
 		}
 		exoPlayer.seekTo(newPosition)
 	}
-
+	
+	private fun updateRepeatMode() {
+		val repeatMode = when (exoPlayer.repeatMode) {
+			Player.REPEAT_MODE_OFF -> Player.REPEAT_MODE_ONE
+			Player.REPEAT_MODE_ONE -> Player.REPEAT_MODE_ALL
+			Player.REPEAT_MODE_ALL -> Player.REPEAT_MODE_OFF
+			else -> {
+				Player.REPEAT_MODE_OFF
+			}
+		}
+		exoPlayer.repeatMode = repeatMode
+		sharedPreferencesManager.put(REPEAT_MODE, repeatMode)
+		sendActionToActivity(MusicAction.REPEAT.action)
+	}
+	
+	private fun updateShuffleMode() {
+		exoPlayer.shuffleModeEnabled = !exoPlayer.shuffleModeEnabled
+		sharedPreferencesManager.put(SHUFFLE_MODE, exoPlayer.shuffleModeEnabled)
+		sendActionToActivity(MusicAction.SHUFFLE.action)
+	}
 	
 	private fun handleMusicAction(action: Int?) {
-		Log.i(TAG, "handleMusicAction: action: $action")
+		Logger.i(TAG, "handleMusicAction: action: $action")
 		when (action) {
 			MusicAction.PAUSE.action -> {
 				pauseMusic()
@@ -295,6 +324,14 @@ class MusicService : Service() {
 			MusicAction.REWIND_FORWARD.action -> {
 				rewindMusic(MusicAction.REWIND_FORWARD.action)
 			}
+			
+			MusicAction.REPEAT.action -> {
+				updateRepeatMode()
+			}
+			
+			MusicAction.SHUFFLE.action -> {
+				updateShuffleMode()
+			}
 		}
 	}
 	
@@ -315,6 +352,9 @@ class MusicService : Service() {
 		val intent = Intent(SEND_ACTION_TO_ACTIVITY).apply {
 			putExtra(MUSIC_ACTION, action)
 			putExtra(SONG_OBJECT, currentSong)
+			//putExtra(IS_PLAYING_STATUS, exoPlayer.isPlaying)
+			putExtra(SHUFFLE_MODE, exoPlayer.shuffleModeEnabled)
+			putExtra(REPEAT_MODE, exoPlayer.repeatMode)
 		}
 		LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
 	}

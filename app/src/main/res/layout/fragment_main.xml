@@ -8,8 +8,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/background"
-        android:paddingTop="@dimen/dp24">
+        android:background="@color/background">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/header_app"
@@ -110,6 +109,7 @@
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/bt_power"
                     style="@style/ImageButtonHeader"
+                    android:layout_marginEnd="@dimen/dp8"
                     android:src="@drawable/ic_power" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>

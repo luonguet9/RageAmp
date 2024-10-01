@@ -3,15 +3,16 @@ package com.example.rageamp.repository
 import android.content.ContentResolver
 import android.net.Uri
 import android.provider.MediaStore
-import android.util.Log
 import com.example.rageamp.data.model.Song
+import com.example.rageamp.utils.Logger
 
 interface SongRepository {
-	suspend fun getSongsFromDevice() : List<Song>
+	suspend fun getSongsFromDevice(): List<Song>
 }
+
 class SongRepositoryImpl(
 	private val contentResolver: ContentResolver,
-) : SongRepository{
+) : SongRepository {
 	override suspend fun getSongsFromDevice(): List<Song> {
 		val songs = mutableListOf<Song>()
 		val uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
@@ -23,7 +24,10 @@ class SongRepositoryImpl(
 			MediaStore.Audio.Media.ARTIST,
 			MediaStore.Audio.Media.DURATION,
 			MediaStore.Audio.Media.DATA,
-			MediaStore.Audio.Media.ALBUM_ID
+			MediaStore.Audio.Media.ALBUM_ID,
+			MediaStore.Audio.Media.MIME_TYPE,
+			MediaStore.Audio.Media.BITRATE,
+			MediaStore.Audio.Media.YEAR,
 		)
 		val cursor = contentResolver.query(uri, projection, selection, null, sortOrder)
 		cursor?.use {
@@ -34,14 +38,33 @@ class SongRepositoryImpl(
 				val duration = it.getLong(it.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION))
 				val data = it.getString(it.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA))
 				val albumId = it.getLong(it.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM_ID))
+				val mimeType =
+					it.getString(it.getColumnIndexOrThrow(MediaStore.Audio.Media.MIME_TYPE))
+				val bitrate = it.getLong(it.getColumnIndexOrThrow(MediaStore.Audio.Media.BITRATE))
+				val year = it.getLong(it.getColumnIndexOrThrow(MediaStore.Audio.Media.YEAR))
 				val uriAlbumArt = Uri.parse("content://media/external/audio/albumart")
 				val albumArt = Uri.withAppendedPath(uriAlbumArt, albumId.toString()).toString()
-				val song = Song(id, title, artist, duration, data, albumArt)
+				val song = Song(
+					id = id,
+					title = title,
+					artist = artist,
+					duration = duration,
+					data = data,
+					albumArt = albumArt,
+					bitrate = bitrate / 1000,
+					year = year,
+				).apply {
+					convertMimeTypeToExtension(mimeType)
+				}
 				songs.add(song)
 			}
 		}
-		Log.d("CHECK_CHECK", "SongRepository songs: $songs")
+		Logger.d(TAG, "SongRepository songs: $songs")
 		return songs
+	}
+	
+	companion object {
+		private val TAG = SongRepository::class.simpleName
 	}
 }
 

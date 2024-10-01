@@ -13,6 +13,7 @@ import com.example.rageamp.databinding.FragmentSongBinding
 import com.example.rageamp.ui.SharedViewModel
 import com.example.rageamp.ui.adapter.SongAdapter
 import com.example.rageamp.ui.main.MainActivity
+import com.example.rageamp.utils.Logger
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -37,7 +38,7 @@ class SongFragment : BaseFragment<FragmentSongBinding>() {
 	override fun observerLiveData() {
 		lifecycleScope.launch {
 			songViewModel.songs.collect { songs ->
-				Log.d(TAG, "observerLiveData songs: $songs")
+				Logger.d(TAG, "observerLiveData songs: $songs")
 				songAdapter.submitList(songs)
 				binding.tvNoData.visibility = if (songs.isEmpty()) View.VISIBLE else View.GONE
 			}
@@ -59,6 +60,6 @@ class SongFragment : BaseFragment<FragmentSongBinding>() {
 	}
 	
 	companion object {
-		val TAG = this::class.simpleName
+		val TAG = SongFragment::class.simpleName
 	}
 }

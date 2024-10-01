@@ -80,6 +80,9 @@ dependencies {
 	
 	implementation("androidx.activity:activity-ktx:1.9.2")
 	implementation("androidx.fragment:fragment-ktx:1.8.3")
+	
+	// Logger - Timber
+	implementation("com.jakewharton.timber:timber:5.0.1")
 }
 
 kapt {

@@ -1,14 +1,15 @@
 package com.example.rageamp.ui.right
 
-import android.util.Log
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.media3.common.Player
 import com.example.rageamp.R
 import com.example.rageamp.base.BaseFragment
 import com.example.rageamp.databinding.FragmentRightBinding
 import com.example.rageamp.service.MusicService
 import com.example.rageamp.ui.SharedViewModel
 import com.example.rageamp.ui.main.MainActivity
+import com.example.rageamp.utils.Logger
 import com.example.rageamp.utils.enums.MusicAction
 import com.example.rageamp.utils.enums.NavigationAction
 import com.example.rageamp.utils.timeFormatter
@@ -25,15 +26,17 @@ class RightFragment : BaseFragment<FragmentRightBinding>() {
 	
 	override fun initView() {
 		setupSliderMusic()
+		sharedViewModel.getRepeatMode()
+		sharedViewModel.getShuffleModeEnabled()
 	}
 	
 	override fun initListener() {
 		binding.apply {
 			btRepeat.setOnClickListener {
-			
+				sendActionToService(MusicAction.REPEAT.action)
 			}
 			btShuffle.setOnClickListener {
-			
+				sendActionToService(MusicAction.SHUFFLE.action)
 			}
 			btPrevious.setOnClickListener {
 				sendActionToService(MusicAction.PREVIOUS.action)
@@ -71,9 +74,24 @@ class RightFragment : BaseFragment<FragmentRightBinding>() {
 		}
 		
 		sharedViewModel.isPlaying.observe(this) { isPlaying ->
+			Logger.i(TAG, "observerLiveData: isPlaying: $isPlaying")
 			binding.btPlayOrPause.setImageResource(if (isPlaying) R.drawable.ic_pause else R.drawable.ic_play)
 		}
-	}
+		
+		sharedViewModel.repeatMode.observe(this) { repeatMode ->
+			Logger.i(TAG, "observerLiveData: repeatMode: $repeatMode")
+			when (repeatMode) {
+				Player.REPEAT_MODE_OFF -> binding.btRepeat.setImageResource(R.drawable.ic_repeat_off)
+				Player.REPEAT_MODE_ONE -> binding.btRepeat.setImageResource(R.drawable.ic_repeat_one)
+				Player.REPEAT_MODE_ALL -> binding.btRepeat.setImageResource(R.drawable.ic_repeat_all)
+			}
+		}
+		
+		sharedViewModel.shuffleModeEnabled.observe(this) { shuffleModeEnabled ->
+			Logger.i(TAG, "observerLiveData: shuffleModeEnabled: $shuffleModeEnabled")
+			binding.btShuffle.setImageResource(if (shuffleModeEnabled) R.drawable.ic_shuffle_on else R.drawable.ic_shuffle_off)
+		}
+ 	}
 	
 	private fun sendActionToService(action: Int) {
 		(requireActivity() as MainActivity).sendActionToService(action)
@@ -106,7 +124,7 @@ class RightFragment : BaseFragment<FragmentRightBinding>() {
 									it.currentPosition.toFloat()
 							}
 						} catch (e: Exception) {
-							Log.e(TAG, "updateRealTimeSlider error: $e")
+							Logger.e(TAG, "updateRealTimeSlider error: $e")
 						}
 						
 						tvTotalTime.text = timeFormatter().format(it.duration)

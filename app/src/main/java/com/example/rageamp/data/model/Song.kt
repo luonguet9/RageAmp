@@ -9,4 +9,18 @@ data class Song(
 	val duration: Long?,
 	val data: String?,
 	val albumArt: String?,
-) : Serializable
+	var mimeType: String? = "",
+	val bitrate: Long? = 128,
+	val year: Long? = null,
+) : Serializable {
+	 fun convertMimeTypeToExtension(mimeType: String) {
+		this.mimeType = when (mimeType) {
+			"audio/mpeg" -> "mp3"
+			"audio/wav" -> "wav"
+			"audio/x-wav" -> "wav"
+			"audio/ogg" -> "ogg"
+			"audio/flac" -> "flac"
+			else -> "unknown"
+		}
+	}
+}
