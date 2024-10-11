@@ -4,7 +4,8 @@
     <style name="ImageButton">
         <item name="android:layout_width">@dimen/button_size</item>
         <item name="android:layout_height">@dimen/button_size</item>
-        <item name="android:padding">@dimen/dp8</item>
+        <item name="android:background">@drawable/bg_image_button</item>
+        <item name="android:padding">@dimen/dp12</item>
     </style>
 
     <style name="ImageButtonHeader" parent="ImageButton">
@@ -46,4 +47,39 @@
         <item name="android:paddingTop">@dimen/dp10</item>
         <item name="android:paddingBottom">@dimen/dp10</item>
     </style>
+
+    <style name="DialogTextInputLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="boxStrokeColor">?attr/colorPrimary</item>
+        <item name="boxBackgroundColor">#992F2E30</item>
+        <item name="cursorColor">?attr/colorPrimary</item>
+        <item name="hintTextColor">?attr/colorPrimary</item>
+    </style>
+
+    <style name="MyPopupMenu" parent="Widget.AppCompat.PopupMenu.Overflow">
+<!--        <item name="android:popupBackground">@color/dark_gray</item>
+        <item name="android:itemTextAppearance">@style/MyPopupMenuText</item>
+        <item name="textAppearanceLargePopupMenu">@style/TextAppearance.AppCompat.Light.Widget.PopupMenu.Large</item>
+        <item name="textAppearanceSmallPopupMenu">@style/TextAppearance.AppCompat.Light.Widget.PopupMenu.Small</item>-->
+        <item name="android:popupBackground">@color/black</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="MyPopupMenuText" parent="TextAppearance.AppCompat.Light.Widget.PopupMenu.Small">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="ItemPopupText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@drawable/bg_item_popup</item>
+        <item name="android:paddingStart">@dimen/dp16</item>
+        <item name="android:paddingEnd">@dimen/dp16</item>
+        <item name="android:paddingTop">@dimen/dp16</item>
+        <item name="android:paddingBottom">@dimen/dp16</item>
+    </style>
+
+
 </resources>

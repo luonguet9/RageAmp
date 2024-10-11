@@ -19,6 +19,7 @@ object GlideUtils {
         options: RequestOptions? = null,
         placeholderResId: Int? = R.drawable.image_default_song
     ) {
+        Logger.i(TAG, "loadImageFromUrl url: $url")
         val glideRequest = Glide.with(image.context)
             .load(url)
         

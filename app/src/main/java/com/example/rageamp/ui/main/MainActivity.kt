@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.ServiceConnection
 import android.os.IBinder
+import androidx.activity.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
@@ -94,9 +95,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 		}
 	}
 	
-	private val sharedViewModel: SharedViewModel by lazy {
-		ViewModelProvider(this)[SharedViewModel::class.java]
-	}
+	private val sharedViewModel: SharedViewModel by viewModels()
 	
 	override fun getContentLayout(): Int = R.layout.activity_main
 	

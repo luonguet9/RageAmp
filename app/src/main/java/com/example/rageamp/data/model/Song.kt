@@ -1,9 +1,13 @@
 package com.example.rageamp.data.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import java.io.Serializable
 
+@Entity(tableName = "song_table")
 data class Song(
-	val id: Long,
+	@PrimaryKey(autoGenerate = true)
+	val songId: Long,
 	val title: String?,
 	val artist: String?,
 	val duration: Long?,

@@ -3,8 +3,12 @@ package com.example.rageamp.di
 import android.content.ContentResolver
 import android.content.Context
 import com.example.rageamp.data.data_source.pref.SharedPreferencesManager
+import com.example.rageamp.data.data_source.room.dao.PlaylistDao
+import com.example.rageamp.data.data_source.room.dao.SongDao
 import com.example.rageamp.repository.PlayerModeRepository
 import com.example.rageamp.repository.PlayerModeRepositoryImpl
+import com.example.rageamp.repository.PlaylistRepository
+import com.example.rageamp.repository.PlaylistRepositoryImpl
 import com.example.rageamp.repository.SongRepository
 import com.example.rageamp.repository.SongRepositoryImpl
 import com.example.rageamp.repository.ThemeRepository
@@ -29,8 +33,9 @@ object AppModule {
 	@Provides
 	fun provideSongRepository(
 		contentResolver: ContentResolver,
+		songDao: SongDao
 	): SongRepository {
-		return SongRepositoryImpl(contentResolver)
+		return SongRepositoryImpl(contentResolver, songDao)
 	}
 	
 	@Singleton
@@ -53,5 +58,14 @@ object AppModule {
 		sharedPreferencesManager: SharedPreferencesManager
 	): PlayerModeRepository {
 		return PlayerModeRepositoryImpl(sharedPreferencesManager)
+	}
+	
+	@Singleton
+	@Provides
+	fun providePlaylistRepository(
+		playlistDao: PlaylistDao,
+		sharedPreferencesManager: SharedPreferencesManager
+	): PlaylistRepository {
+		return PlaylistRepositoryImpl(playlistDao, sharedPreferencesManager)
 	}
 }

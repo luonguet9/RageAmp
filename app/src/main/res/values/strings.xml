@@ -11,9 +11,38 @@
     <string name="khz">KHZ</string>
     <string name="kbps">KBPS</string>
     <string name="mp3">MP3</string>
+    <string name="find_in_songs">Find in songs</string>
+    <string name="play">Play</string>
+    <string name="remove">Remove</string>
+    <!--Screen-->
+    <string name="songs">Songs</string>
+    <string name="playlist">Playlist</string>
     <!--Notifications-->
     <string name="channel_name">Music channel</string>
     <string name="channel_description">Music Player Notification</string>
     <!--Seekbar-->
     <string name="seekbar_default">--:--</string>
+    <!--Dialog add/rename/delete playlist-->
+    <string name="create">Create</string>
+    <string name="add_playlist_dialog_title">Create new playlist</string>
+    <string name="add_playlist_dialog_sub_title">Give your playlist a name</string>
+    <string name="rename_playlist_dialog_sub_title">Give your playlist a new name</string>
+    <string name="type_playlist_name">Type your playlist name</string>
+    <string name="type_new_playlist_name">Type your new playlist name</string>
+    <string name="your_list_song">Your list song</string>
+    <string name="rename">Rename</string>
+    <string name="delete">Delete</string>
+    <string name="rename_playlist">Rename playlist</string>
+    <string name="delete_playlist">Delete playlist</string>
+    <string name="are_you_sure_to_delete">Are you sure to delete?</string>
+    <string name="playlist_action_error">Playlist name cannot be empty</string>
+    <string name="successfully">Successfully</string>
+    <string name="song_exists">The song already exists</string>
+    <!--Playlist and PlaylistDetail-->
+    <string name="songs_with_placeholder">%d songs</string>
+    <string name="song_with_placeholder">%d song</string>
+    <string name="favorite">Favorite</string>
+    <string name="add_music">Add Music</string>
+    <string name="there_is_no_music_in_this_playlist">There is no music in this playlist</string>
+
 </resources>

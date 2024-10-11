@@ -6,7 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.rageamp.data.model.Song
 import com.example.rageamp.repository.PlayerModeRepository
+import com.example.rageamp.repository.SongRepository
 import com.example.rageamp.repository.ThemeRepository
+import com.example.rageamp.utils.Logger
 import com.example.rageamp.utils.enums.NavigationAction
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -18,13 +20,26 @@ import javax.inject.Inject
 @HiltViewModel
 class SharedViewModel @Inject constructor(
 	private val themeRepository: ThemeRepository,
-	private val playerModeRepository: PlayerModeRepository
+	private val playerModeRepository: PlayerModeRepository,
+	private val songRepository: SongRepository
 ) : ViewModel() {
+	init {
+		Logger.d(TAG, "init----------")
+		viewModelScope.launch {
+			songRepository.getAllSongs().collect { songList ->
+				_allSongs.value = songList
+			}
+		}
+	}
+	
 	private val _navigationAction = MutableLiveData<NavigationAction>()
 	val navigationAction: LiveData<NavigationAction> get() = _navigationAction
 	
 	private val _currentSong = MutableLiveData<Song>()
 	val currentSong: LiveData<Song> get() = _currentSong
+	
+	private val _allSongs = MutableStateFlow<List<Song>>(emptyList())
+	val allSongs: StateFlow<List<Song>> = _allSongs
 	
 	private val _currentSongs = MutableStateFlow<List<Song>>(emptyList())
 	val currentSongs: StateFlow<List<Song>> get() = _currentSongs
@@ -97,5 +112,9 @@ class SharedViewModel @Inject constructor(
 	
 	fun getTheme(): String {
 		return themeRepository.getTheme()
+	}
+	
+	companion object {
+		private val TAG = SharedViewModel::class.simpleName
 	}
 }

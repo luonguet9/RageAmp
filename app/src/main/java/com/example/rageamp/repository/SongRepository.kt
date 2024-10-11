@@ -3,17 +3,39 @@ package com.example.rageamp.repository
 import android.content.ContentResolver
 import android.net.Uri
 import android.provider.MediaStore
+import com.example.rageamp.data.data_source.room.dao.SongDao
 import com.example.rageamp.data.model.Song
 import com.example.rageamp.utils.Logger
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.firstOrNull
 
 interface SongRepository {
-	suspend fun getSongsFromDevice(): List<Song>
+	suspend fun getAllSongs(): Flow<List<Song>>
 }
 
 class SongRepositoryImpl(
 	private val contentResolver: ContentResolver,
+	private val songDao: SongDao,
 ) : SongRepository {
-	override suspend fun getSongsFromDevice(): List<Song> {
+	
+	override suspend fun getAllSongs(): Flow<List<Song>> {
+		val songsFromDevice = getSongsFromDevice()  // Get list from device
+		val songsFromDb = songDao.getAllSongs()  // Get list from Room
+		
+		// Synchronize Room with device
+		songDao.insertSongs(*songsFromDevice.toTypedArray())  // Add or update songs from device
+		val dbSongsList = songsFromDb.firstOrNull().orEmpty()
+		
+		val songsToRemove = dbSongsList.filterNot { dbSong ->
+			songsFromDevice.any { it.songId == dbSong.songId }
+		}
+		songDao.deleteSongs(*songsToRemove.toTypedArray())  // Delete songs no longer on device
+		
+		// Return Flow from Room after synchronization
+		return songDao.getAllSongs()
+	}
+	
+	private suspend fun getSongsFromDevice(): List<Song> {
 		val songs = mutableListOf<Song>()
 		val uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
 		val selection = MediaStore.Audio.Media.IS_MUSIC + "!= 0"
@@ -45,7 +67,7 @@ class SongRepositoryImpl(
 				val uriAlbumArt = Uri.parse("content://media/external/audio/albumart")
 				val albumArt = Uri.withAppendedPath(uriAlbumArt, albumId.toString()).toString()
 				val song = Song(
-					id = id,
+					songId = id,
 					title = title,
 					artist = artist,
 					duration = duration,

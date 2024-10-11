@@ -16,19 +16,16 @@ class SongViewModel @Inject constructor(
 	private val songRepository: SongRepository
 ) : ViewModel() {
 	init {
-		getSongsFromDevice()
+		viewModelScope.launch {
+			songRepository.getAllSongs().collect { songs ->
+				Logger.d(TAG, "collect songs: $songs")
+				_songs.value = songs
+			}
+		}
 	}
 	
 	private val _songs = MutableStateFlow<List<Song>>(emptyList())
 	val songs: StateFlow<List<Song>> = _songs
-	
-	private fun getSongsFromDevice() {
-		viewModelScope.launch {
-			val songs = songRepository.getSongsFromDevice()
-			Logger.d(TAG, "viewModelScope songs: $songs")
-			_songs.value = songs
-		}
-	}
 	
 	companion object {
 		private val TAG = SongViewModel::class.simpleName

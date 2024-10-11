@@ -123,7 +123,7 @@ class MusicService : Service() {
 	
 	fun onCompletionListener() {
 		val currentIndex = currentSong?.let { song ->
-			songs.indexOfFirst { it.id == song.id }
+			songs.indexOfFirst { it.songId == song.songId }
 		} ?: -1
 		
 		when (exoPlayer.repeatMode) {
@@ -225,7 +225,7 @@ class MusicService : Service() {
 		}
 		
 		val currentIndex = currentSong?.let { song ->
-			songs.indexOfFirst { it.id == song.id }
+			songs.indexOfFirst { it.songId == song.songId }
 		} ?: 0
 		val nextIndex = when (exoPlayer.shuffleModeEnabled) {
 			false -> (currentIndex + 1) % (songs.size)
@@ -250,7 +250,7 @@ class MusicService : Service() {
 		}
 		
 		val currentIndex = currentSong?.let { song ->
-			songs.indexOfFirst { it.id == song.id }
+			songs.indexOfFirst { it.songId == song.songId }
 		} ?: -1
 		val prevIndex = when (exoPlayer.shuffleModeEnabled) {
 			false -> (currentIndex - 1 + songs.size) % songs.size
@@ -360,7 +360,7 @@ class MusicService : Service() {
 	}
 	
 	fun getCurrentSongIndex(): Int {
-		return songs.indexOfFirst { it.id == currentSong?.id }
+		return songs.indexOfFirst { it.songId == currentSong?.songId }
 	}
 	
 	fun setCurrentSongs(songs: List<Song>) {

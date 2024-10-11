@@ -13,10 +13,12 @@ import com.example.rageamp.utils.Logger
 import com.example.rageamp.utils.enums.MusicAction
 import com.example.rageamp.utils.enums.NavigationAction
 import com.example.rageamp.utils.timeFormatter
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class RightFragment : BaseFragment<FragmentRightBinding>() {
 	private val sharedViewModel: SharedViewModel by activityViewModels()
 	private val musicService: MusicService?

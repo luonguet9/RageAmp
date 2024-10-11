@@ -50,6 +50,9 @@ class SongFragment : BaseFragment<FragmentSongBinding>() {
 			onClickItemSong = { song ->
 				(requireActivity() as MainActivity).startMusicService(song)
 				sharedViewModel.setCurrentSongs(songViewModel.songs.value)
+			},
+			onLongClickItemSong = { song, view ->
+			
 			}
 		)
 		
