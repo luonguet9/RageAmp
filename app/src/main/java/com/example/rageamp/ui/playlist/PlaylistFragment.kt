@@ -1,7 +1,10 @@
 package com.example.rageamp.ui.playlist
 
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.PopupWindow
 import android.widget.TextView
 import androidx.fragment.app.activityViewModels
@@ -35,6 +38,7 @@ class PlaylistFragment : BaseFragment<FragmentPlaylistBinding>() {
 		binding.layoutHeader.layoutBack.setOnClickListener {
 			findNavController().popBackStack()
 		}
+		handleSearchBarListener()
 		
 		binding.btAddPlaylist.setOnClickListener {
 			activity?.supportFragmentManager?.let {
@@ -114,6 +118,32 @@ class PlaylistFragment : BaseFragment<FragmentPlaylistBinding>() {
 				show(it, this.tag)
 			}
 		}
+	}
+	
+	private fun handleSearchBarListener() {
+		binding.edtSearch.setOnEditorActionListener { _, actionId, _ ->
+			if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+				searchPlaylist()
+			}
+			false
+		}
+		
+		binding.edtSearch.addTextChangedListener(object : TextWatcher {
+			override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+			
+			override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+			
+			override fun afterTextChanged(s: Editable?) {
+				searchPlaylist()
+			}
+		})
+	}
+	
+	private fun searchPlaylist() {
+		val searchText = binding.edtSearch.text.toString().lowercase()
+		val filteredList =
+			playlistViewModel.playlists.value.filter { it.name.lowercase().contains(searchText) }
+		playlistAdapter.submitList(filteredList)
 	}
 	
 	companion object {

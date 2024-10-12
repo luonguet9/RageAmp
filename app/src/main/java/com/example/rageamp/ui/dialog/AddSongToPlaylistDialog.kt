@@ -122,19 +122,6 @@ class AddSongToPlaylistDialog : BaseDialog<DialogAddSongToPlaylistBinding>() {
 		songAdapter.submitList(filteredList)
 	}
 	
-	fun setCustomSizeDialog(height: Int) {
-		dialog?.window?.apply {
-			setLayout(
-				Resources.getSystem().displayMetrics.widthPixels / 2,
-				WindowManager.LayoutParams.MATCH_PARENT
-			)
-			attributes = attributes.apply {
-				y = 128
-			}
-		}
-		
-	}
-	
 	companion object {
 		private val TAG = AddSongToPlaylistDialog::class.simpleName
 	}

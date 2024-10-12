@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/Widget.Material3.CardView.Elevated"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/dp8"
+    app:cardBackgroundColor="@color/dark_gray"
+    app:cardCornerRadius="@dimen/dp8"
+    app:cardElevation="@dimen/dp0">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/item_sort_by_title_az"
+            style="@style/ItemPopupText"
+            android:layout_width="wrap_content"
+            android:paddingEnd="@dimen/dp56"
+            android:text="@string/sort_by_title_a_z" />
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:strokeColor="@color/gray"
+            app:strokeWidth="@dimen/dp1" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/item_sort_by_title_za"
+            style="@style/ItemPopupText"
+            android:text="@string/sort_by_title_z_a" />
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:strokeColor="@color/gray"
+            app:strokeWidth="@dimen/dp1" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/item_sort_by_artist"
+            style="@style/ItemPopupText"
+            android:text="@string/sort_by_artist" />
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:strokeColor="@color/gray"
+            app:strokeWidth="@dimen/dp1" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/item_sort_by_duration"
+            style="@style/ItemPopupText"
+            android:text="@string/sort_by_duration" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</com.google.android.material.card.MaterialCardView>

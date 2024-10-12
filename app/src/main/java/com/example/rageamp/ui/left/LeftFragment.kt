@@ -46,6 +46,11 @@ class LeftFragment : BaseFragment<FragmentLeftBinding>() {
 		}
 	}
 	
+	override fun onResume() {
+		super.onResume()
+		sharedViewModel.lastNavigationAction = NavigationAction.INVALID
+	}
+	
 	private fun navigateTo(actionId: Int) {
 		findNavController().popBackStack(findNavController().graph.startDestinationId, false)
 		findNavController().navigate(actionId)

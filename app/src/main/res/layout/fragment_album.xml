@@ -16,7 +16,7 @@
             layout="@layout/layout_header" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_control"
+            android:id="@+id/cl_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingHorizontal="@dimen/dp16"
@@ -25,7 +25,7 @@
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/iv_playlist"
                 style="@style/ImageButton"
-                android:src="@drawable/ic_playlist"
+                android:src="@drawable/ic_album"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -43,15 +43,31 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/edt_search"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp56"
+            android:layout_marginHorizontal="@dimen/dp16"
+            android:background="@drawable/bg_search"
+            android:drawableStart="@drawable/ic_search"
+            android:drawablePadding="10dp"
+            android:hint="@string/find_in_albums"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:padding="10dp"
+            android:textColor="@color/white_80"
+            android:textColorHint="@color/white_80"
+            app:layout_constraintTop_toBottomOf="@id/cl_title" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_album"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="@dimen/dp8"
+            android:layout_marginTop="@dimen/dp16"
             android:overScrollMode="never"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cl_control"
+            app:layout_constraintTop_toBottomOf="@id/edt_search"
             tools:listitem="@layout/item_playlist" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

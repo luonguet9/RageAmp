@@ -1,5 +1,8 @@
 package com.example.rageamp.ui.album
 
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -26,7 +29,7 @@ class AlbumFragment : BaseFragment<FragmentAlbumBinding>() {
 		binding.layoutHeader.layoutBack.setOnClickListener {
 			findNavController().popBackStack()
 		}
-		
+		handleSearchBarListener()
 	}
 	
 	override fun observerLiveData() {
@@ -52,6 +55,33 @@ class AlbumFragment : BaseFragment<FragmentAlbumBinding>() {
 		binding.rvAlbum.layoutManager = GridLayoutManager(requireContext(), 2)
 	}
 	
+	private fun handleSearchBarListener() {
+		binding.edtSearch.setOnEditorActionListener { _, actionId, _ ->
+			if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+				searchPlaylist()
+			}
+			false
+		}
+		
+		binding.edtSearch.addTextChangedListener(object : TextWatcher {
+			override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+			
+			override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+			
+			override fun afterTextChanged(s: Editable?) {
+				searchPlaylist()
+			}
+		})
+	}
+	
+	private fun searchPlaylist() {
+		val searchText = binding.edtSearch.text.toString().lowercase()
+		val filteredList =
+			albumViewModel.albums.value.filter {
+				it.name?.lowercase()?.contains(searchText) == true
+			}
+		albumAdapter.submitList(filteredList)
+	}
 	
 	companion object {
 		private val TAG = AlbumFragment::class.simpleName

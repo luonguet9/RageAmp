@@ -12,6 +12,8 @@
     <string name="kbps">KBPS</string>
     <string name="mp3">MP3</string>
     <string name="find_in_songs">Find in songs</string>
+    <string name="find_in_playlists">Find in playlists</string>
+    <string name="find_in_albums">Find in albums</string>
     <string name="play">Play</string>
     <string name="remove">Remove</string>
     <!--Screen-->
@@ -45,5 +47,10 @@
     <string name="favorite">Favorite</string>
     <string name="add_music">Add Music</string>
     <string name="there_is_no_music_in_this_playlist">There is no music in this playlist</string>
+    <!--Popup sort songs-->
+    <string name="sort_by_title_a_z">Sort by Title (A-Z)</string>
+    <string name="sort_by_title_z_a">Sort by Title (Z-A)</string>
+    <string name="sort_by_artist">Sort by Artist</string>
+    <string name="sort_by_duration">Sort by Duration</string>
 
 </resources>

@@ -1,7 +1,13 @@
 package com.example.rageamp.ui.song
 
-import android.util.Log
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.widget.PopupWindow
+import android.widget.TextView
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -33,6 +39,11 @@ class SongFragment : BaseFragment<FragmentSongBinding>() {
 		binding.layoutHeader.layoutBack.setOnClickListener {
 			findNavController().popBackStack()
 		}
+		handleSearchBarListener()
+		
+		binding.ivSort.setOnClickListener {view->
+			handleSortSongs(view)
+		}
 	}
 	
 	override fun observerLiveData() {
@@ -60,6 +71,74 @@ class SongFragment : BaseFragment<FragmentSongBinding>() {
 			adapter = songAdapter
 			layoutManager = LinearLayoutManager(context)
 		}
+	}
+	
+	private fun handleSearchBarListener() {
+		binding.edtSearch.setOnEditorActionListener { _, actionId, _ ->
+			if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+				searchSong()
+			}
+			false
+		}
+		
+		binding.edtSearch.addTextChangedListener(object : TextWatcher {
+			override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+			
+			override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+			
+			override fun afterTextChanged(s: Editable?) {
+				searchSong()
+			}
+		})
+	}
+	
+	private fun searchSong() {
+		val searchText = binding.edtSearch.text.toString().lowercase()
+		val filteredList =
+			songViewModel.songs.value.filter { it.title?.lowercase()?.contains(searchText) == true }
+		songAdapter.submitList(filteredList)
+	}
+	
+	private fun handleSortSongs(view: View) {
+		val popupView = LayoutInflater.from(requireContext())
+			.inflate(R.layout.popup_sort_song, view.rootView as ViewGroup, false)
+		val popupWindow =
+			PopupWindow(
+				popupView,
+				ViewGroup.LayoutParams.WRAP_CONTENT,
+				ViewGroup.LayoutParams.WRAP_CONTENT,
+				true
+			)
+		
+		val sortByTitleAZItem = popupView.findViewById<TextView>(R.id.item_sort_by_title_az)
+		sortByTitleAZItem.setOnClickListener {
+			songViewModel.sortSongsByTitleAZ()
+			sharedViewModel.setCurrentSongs(songViewModel.songs.value)
+			popupWindow.dismiss()
+		}
+		
+		val sortByTitleZAItem = popupView.findViewById<TextView>(R.id.item_sort_by_title_za)
+		sortByTitleZAItem.setOnClickListener {
+			songViewModel.sortSongsByTitleZA()
+			sharedViewModel.setCurrentSongs(songViewModel.songs.value)
+			popupWindow.dismiss()
+		}
+		
+		val sortByArtistItem = popupView.findViewById<TextView>(R.id.item_sort_by_artist)
+		sortByArtistItem.setOnClickListener {
+			songViewModel.sortSongsByArtist()
+			sharedViewModel.setCurrentSongs(songViewModel.songs.value)
+			popupWindow.dismiss()
+		}
+		
+		val sortByDurationItem = popupView.findViewById<TextView>(R.id.item_sort_by_duration)
+		sortByDurationItem.setOnClickListener {
+			songViewModel.sortSongsByDuration()
+			sharedViewModel.setCurrentSongs(songViewModel.songs.value)
+			popupWindow.dismiss()
+		}
+		
+		popupWindow.showAsDropDown(view, 0, 0)
 	}
 	
 	companion object {
