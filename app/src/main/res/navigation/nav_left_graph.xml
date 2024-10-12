@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_leftFragment_to_songFragment"
             app:destination="@id/songFragment" />
+        <action
+            android:id="@+id/action_leftFragment_to_albumFragment"
+            app:destination="@id/albumFragment" />
     </fragment>
     <fragment
         android:id="@+id/playlistFragment"
@@ -33,5 +36,24 @@
     <fragment
         android:id="@+id/playlistDetailFragment"
         android:name="com.example.rageamp.ui.playlist_detail.PlaylistDetailFragment"
-        android:label="PlaylistDetailFragment" />
+        android:label="PlaylistDetailFragment"
+        tools:layout="@layout/fragment_playlist_detail" />
+    <fragment
+        android:id="@+id/albumFragment"
+        android:name="com.example.rageamp.ui.album.AlbumFragment"
+        android:label="AlbumFragment"
+        tools:layout="@layout/fragment_album">
+        <action
+            android:id="@+id/action_albumFragment_to_albumDetailFragment"
+            app:destination="@id/albumDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/albumDetailFragment"
+        android:name="com.example.rageamp.ui.album_detail.AlbumDetailFragment"
+        android:label="AlbumDetailFragment"
+        tools:layout="@layout/fragment_album_detail">
+        <argument
+            android:name="album"
+            app:argType="com.example.rageamp.data.model.Album"/>
+    </fragment>
 </navigation>

@@ -35,6 +35,8 @@ class SharedViewModel @Inject constructor(
 	private val _navigationAction = MutableLiveData<NavigationAction>()
 	val navigationAction: LiveData<NavigationAction> get() = _navigationAction
 	
+	var lastNavigationAction = NavigationAction.INVALID
+	
 	private val _currentSong = MutableLiveData<Song>()
 	val currentSong: LiveData<Song> get() = _currentSong
 	

@@ -5,6 +5,8 @@ import android.content.Context
 import com.example.rageamp.data.data_source.pref.SharedPreferencesManager
 import com.example.rageamp.data.data_source.room.dao.PlaylistDao
 import com.example.rageamp.data.data_source.room.dao.SongDao
+import com.example.rageamp.repository.AlbumRepository
+import com.example.rageamp.repository.AlbumRepositoryImpl
 import com.example.rageamp.repository.PlayerModeRepository
 import com.example.rageamp.repository.PlayerModeRepositoryImpl
 import com.example.rageamp.repository.PlaylistRepository
@@ -67,5 +69,13 @@ object AppModule {
 		sharedPreferencesManager: SharedPreferencesManager
 	): PlaylistRepository {
 		return PlaylistRepositoryImpl(playlistDao, sharedPreferencesManager)
+	}
+	
+	@Singleton
+	@Provides
+	fun provideAlbumRepository(
+		songRepository: SongRepository
+	): AlbumRepository {
+		return AlbumRepositoryImpl(songRepository)
 	}
 }

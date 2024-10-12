@@ -46,6 +46,7 @@ class SongRepositoryImpl(
 			MediaStore.Audio.Media.ARTIST,
 			MediaStore.Audio.Media.DURATION,
 			MediaStore.Audio.Media.DATA,
+			MediaStore.Audio.Media.ALBUM,
 			MediaStore.Audio.Media.ALBUM_ID,
 			MediaStore.Audio.Media.MIME_TYPE,
 			MediaStore.Audio.Media.BITRATE,
@@ -59,6 +60,7 @@ class SongRepositoryImpl(
 				val artist = it.getString(it.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST))
 				val duration = it.getLong(it.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION))
 				val data = it.getString(it.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA))
+				val album = it.getString(it.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM))
 				val albumId = it.getLong(it.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM_ID))
 				val mimeType =
 					it.getString(it.getColumnIndexOrThrow(MediaStore.Audio.Media.MIME_TYPE))
@@ -72,6 +74,7 @@ class SongRepositoryImpl(
 					artist = artist,
 					duration = duration,
 					data = data,
+					album = album,
 					albumArt = albumArt,
 					bitrate = bitrate / 1000,
 					year = year,

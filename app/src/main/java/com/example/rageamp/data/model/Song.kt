@@ -12,6 +12,7 @@ data class Song(
 	val artist: String?,
 	val duration: Long?,
 	val data: String?,
+	val album: String?,
 	val albumArt: String?,
 	var mimeType: String? = "",
 	val bitrate: Long? = 128,

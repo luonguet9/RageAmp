@@ -66,6 +66,9 @@ class RightFragment : BaseFragment<FragmentRightBinding>() {
 			btPlaylist.setOnClickListener {
 				sharedViewModel.navigate(NavigationAction.TO_PLAYLIST_FRAGMENT)
 			}
+			btAlbum.setOnClickListener {
+				sharedViewModel.navigate(NavigationAction.TO_ALBUM_FRAGMENT)
+			}
 		}
 	}
 	
@@ -93,7 +96,7 @@ class RightFragment : BaseFragment<FragmentRightBinding>() {
 			Logger.i(TAG, "observerLiveData: shuffleModeEnabled: $shuffleModeEnabled")
 			binding.btShuffle.setImageResource(if (shuffleModeEnabled) R.drawable.ic_shuffle_on else R.drawable.ic_shuffle_off)
 		}
- 	}
+	}
 	
 	private fun sendActionToService(action: Int) {
 		(requireActivity() as MainActivity).sendActionToService(action)

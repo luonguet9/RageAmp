@@ -25,24 +25,27 @@ class LeftFragment : BaseFragment<FragmentLeftBinding>() {
 	override fun observerLiveData() {
 		sharedViewModel.navigationAction.observeForever { action ->
 			Logger.i(TAG, "NavigationAction: action: $action")
-			
-			when (action) {
-				NavigationAction.TO_SONG_FRAGMENT -> {
-					navigateTo(R.id.action_leftFragment_to_songFragment)
-					sharedViewModel.resetNavigation()
+			action.takeIf { it != sharedViewModel.lastNavigationAction }?.let {
+				val destinationId = when (it) {
+					NavigationAction.TO_SONG_FRAGMENT -> R.id.action_leftFragment_to_songFragment
+					NavigationAction.TO_PLAYLIST_FRAGMENT -> R.id.action_leftFragment_to_playlistFragment
+					NavigationAction.TO_ALBUM_FRAGMENT -> R.id.action_leftFragment_to_albumFragment
+					else -> {
+						Logger.w(TAG, "NavigationAction: INVALID ACTION")
+						return@observeForever
+					}
 				}
 				
-				NavigationAction.TO_PLAYLIST_FRAGMENT -> {
-					navigateTo(R.id.action_leftFragment_to_playlistFragment)
-					sharedViewModel.resetNavigation()
-				}
-				
-				else -> {
-					Logger.w(TAG, "NavigationAction: ACTION IS NULL OR NOT EXIST ACTION")
-				}
+				Logger.d(TAG, "Navigate to $it")
+				sharedViewModel.lastNavigationAction = it
+				navigateTo(destinationId)
+				sharedViewModel.resetNavigation()
+			} ?: run {
+				Logger.w(TAG, "Do not perform navigation")
 			}
 		}
 	}
+	
 	private fun navigateTo(actionId: Int) {
 		findNavController().popBackStack(findNavController().graph.startDestinationId, false)
 		findNavController().navigate(actionId)
