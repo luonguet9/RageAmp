@@ -4,10 +4,8 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.graphics.drawable.ColorDrawable
 import android.media.AudioManager
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.rageamp.R
@@ -32,7 +30,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
 	private val volumeChangeReceiver = object : BroadcastReceiver() {
 		override fun onReceive(context: Context?, intent: Intent?) {
 			if (intent?.action == VOLUME_CHANGED_ACTION) {
-				Logger.i(TAG, "onReceive: VOLUME_CHANGED_ACTION")
+				Logger.i("onReceive: VOLUME_CHANGED_ACTION")
 				displayVolumeSlider()
 			}
 		}
@@ -126,7 +124,6 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
 	}
 	
 	companion object {
-		private val TAG = MainFragment::class.simpleName
 		private const val VOLUME_CHANGED_ACTION = "android.media.VOLUME_CHANGED_ACTION"
 	}
 }

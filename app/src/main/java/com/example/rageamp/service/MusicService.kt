@@ -64,7 +64,7 @@ class MusicService : Service() {
 	}
 	
 	override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-		Logger.v(TAG, "onStartCommand: ------------")
+		Logger.v("onStartCommand: ------------")
 		val song = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
 			intent?.getSerializableExtra(SONG_OBJECT, Song::class.java)
 		} else {
@@ -113,7 +113,7 @@ class MusicService : Service() {
 			}
 			
 			override fun onIsPlayingChanged(isPlaying: Boolean) {
-				Logger.i(TAG, "onIsPlayingChanged: $isPlaying")
+				Logger.i("onIsPlayingChanged: $isPlaying")
 				sendNotification()
 				super.onIsPlayingChanged(isPlaying)
 				
@@ -148,7 +148,7 @@ class MusicService : Service() {
 	}
 	
 	private fun sendNotification() {
-		Logger.i(TAG, "sendNotification----------")
+		Logger.i("sendNotification----------")
 		val notificationIntent = Intent(this, MainActivity::class.java).apply {
 			flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
 		}
@@ -299,7 +299,7 @@ class MusicService : Service() {
 	}
 	
 	private fun handleMusicAction(action: Int?) {
-		Logger.i(TAG, "handleMusicAction: action: $action")
+		Logger.i("handleMusicAction: action: $action")
 		when (action) {
 			MusicAction.PAUSE.action -> {
 				pauseMusic()
@@ -368,7 +368,6 @@ class MusicService : Service() {
 	}
 	
 	companion object {
-		private val TAG = MusicService::class.simpleName
 		private const val REWIND_TIME = 5000
 	}
 }

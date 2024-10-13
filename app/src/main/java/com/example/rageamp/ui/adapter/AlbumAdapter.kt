@@ -35,7 +35,7 @@ class AlbumAdapter(
 		}
 		
 		fun bind(album: Album) {
-			Logger.d(ALBUM_ADAPTER_TAG, "bind album: $album")
+			Logger.d(ALBUM_VIEW_HOLDER_TAG, "bind album: $album")
 			binding.tvNameAlbum.text = album.name
 			val pluralResource =
 				if (album.songs.size > 1) R.string.songs_with_placeholder else R.string.song_with_placeholder
@@ -105,7 +105,6 @@ class AlbumAdapter(
 	
 	companion object {
 		private val ALBUM_VIEW_HOLDER_TAG = AlbumViewHolder::class.simpleName
-		private val ALBUM_ADAPTER_TAG = AlbumAdapter::class.simpleName
 	}
 	
 	class ItemAlbumCallback : DiffUtil.ItemCallback<Any>() {

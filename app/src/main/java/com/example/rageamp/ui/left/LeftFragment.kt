@@ -17,7 +17,7 @@ class LeftFragment : BaseFragment<FragmentLeftBinding>() {
 	override fun getContentLayout(): Int = R.layout.fragment_left
 	
 	override fun initView() {
-	
+		Logger.i("initView $this")
 	}
 	
 	override fun initListener() {
@@ -26,24 +26,24 @@ class LeftFragment : BaseFragment<FragmentLeftBinding>() {
 	
 	override fun observerLiveData() {
 		sharedViewModel.navigationAction.observeForever { action ->
-			Logger.i(TAG, "NavigationAction: action: $action")
+			Logger.i("NavigationAction: action: $action")
 			action.takeIf { it != sharedViewModel.lastNavigationAction }?.let {
 				val destinationId = when (it) {
 					NavigationAction.TO_SONG_FRAGMENT -> R.id.action_leftFragment_to_songFragment
 					NavigationAction.TO_PLAYLIST_FRAGMENT -> R.id.action_leftFragment_to_playlistFragment
 					NavigationAction.TO_ALBUM_FRAGMENT -> R.id.action_leftFragment_to_albumFragment
 					else -> {
-						Logger.w(TAG, "NavigationAction: INVALID ACTION")
+						Logger.w("NavigationAction: INVALID ACTION")
 						return@observeForever
 					}
 				}
 				
-				Logger.d(TAG, "Navigate to $it")
+				Logger.d("Navigate to $it")
 				sharedViewModel.lastNavigationAction = it
 				navigateTo(destinationId)
 				sharedViewModel.resetNavigation()
 			} ?: run {
-				Logger.w(TAG, "Do not perform navigation")
+				Logger.w("Do not perform navigation")
 			}
 		}
 		
@@ -71,7 +71,7 @@ class LeftFragment : BaseFragment<FragmentLeftBinding>() {
 	}
 	
 	private fun startOrStopAnimationImageSong(isStart: Boolean = true) {
-		Logger.i(TAG, "startOrStopAnimationImageSong isStart: $isStart")
+		Logger.i("startOrStopAnimationImageSong isStart: $isStart")
 		if (isStart) {
 			binding.ivSong.animate()
 				.rotationBy(360f)
@@ -87,7 +87,4 @@ class LeftFragment : BaseFragment<FragmentLeftBinding>() {
 		}
 	}
 	
-	companion object {
-		private val TAG = LeftFragment::class.simpleName
-	}
 }

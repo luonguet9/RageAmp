@@ -58,7 +58,7 @@ class PlaylistFragment : BaseFragment<FragmentPlaylistBinding>() {
 		lifecycleScope.launch {
 			//repeatOnLifecycle(Lifecycle.State.STARTED) {
 			playlistViewModel.playlists.collect { playlists ->
-				Logger.i(TAG, "observerLiveData: playlists: $playlists")
+				Logger.i("observerLiveData: playlists: $playlists")
 				playlistAdapter.submitList(playlists)
 			}
 			//}
@@ -146,7 +146,4 @@ class PlaylistFragment : BaseFragment<FragmentPlaylistBinding>() {
 		playlistAdapter.submitList(filteredList)
 	}
 	
-	companion object {
-		private val TAG = PlaylistFragment::class.simpleName
-	}
 }

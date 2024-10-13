@@ -84,13 +84,10 @@ class SongRepositoryImpl(
 				songs.add(song)
 			}
 		}
-		Logger.d(TAG, "SongRepository songs: $songs")
+		Logger.d("SongRepository songs: $songs")
 		return songs
 	}
 	
-	companion object {
-		private val TAG = SongRepository::class.simpleName
-	}
 }
 
 

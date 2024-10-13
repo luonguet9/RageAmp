@@ -1,10 +1,8 @@
 package com.example.rageamp.ui.dialog
 
-import android.content.res.Resources
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.Gravity
-import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
@@ -55,7 +53,7 @@ class AddSongToPlaylistDialog : BaseDialog<DialogAddSongToPlaylistBinding>() {
 			onClickItemSong = { song ->
 				playlistViewModel.playlist?.let { playlist ->
 					playlistViewModel.addSongToPlaylist(song, playlist) { success ->
-						Logger.i(TAG, "addSongToPlaylist success = $success")
+						Logger.i("addSongToPlaylist success = $success")
 						if (success) {
 							playlist.songs.add(song)
 							songAdapter.notifyItemChanged(
@@ -124,10 +122,6 @@ class AddSongToPlaylistDialog : BaseDialog<DialogAddSongToPlaylistBinding>() {
 		val searchText = binding.edtSearch.text.toString().lowercase()
 		val filteredList = songs.filter { it.title?.lowercase()?.contains(searchText) == true }
 		songAdapter.submitList(filteredList)
-	}
-	
-	companion object {
-		private val TAG = AddSongToPlaylistDialog::class.simpleName
 	}
 	
 }

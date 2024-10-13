@@ -41,7 +41,7 @@ class SongFragment : BaseFragment<FragmentSongBinding>() {
 		}
 		handleSearchBarListener()
 		
-		binding.ivSort.setOnClickListener {view->
+		binding.ivSort.setOnClickListener { view ->
 			handleSortSongs(view)
 		}
 	}
@@ -49,7 +49,7 @@ class SongFragment : BaseFragment<FragmentSongBinding>() {
 	override fun observerLiveData() {
 		lifecycleScope.launch {
 			songViewModel.songs.collect { songs ->
-				Logger.d(TAG, "observerLiveData songs: $songs")
+				Logger.d("observerLiveData songs: $songs")
 				songAdapter.submitList(songs)
 				binding.tvNoData.visibility = if (songs.isEmpty()) View.VISIBLE else View.GONE
 			}
@@ -141,7 +141,4 @@ class SongFragment : BaseFragment<FragmentSongBinding>() {
 		popupWindow.showAsDropDown(view, 0, 0)
 	}
 	
-	companion object {
-		val TAG = SongFragment::class.simpleName
-	}
 }

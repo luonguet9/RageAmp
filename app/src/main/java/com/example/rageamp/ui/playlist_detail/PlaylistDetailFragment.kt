@@ -62,7 +62,7 @@ class PlaylistDetailFragment : BaseFragment<FragmentPlaylistDetailBinding>() {
 	override fun observerLiveData() {
 		lifecycleScope.launch {
 			playlistViewModel.getAllSongsInPlaylist()?.collect { songs ->
-				Logger.i(TAG, "observerLiveData songs: $songs")
+				Logger.i("observerLiveData songs: $songs")
 				updateNumberOfSongs(songs)
 				handlePlaylistImage(songs)
 				handleEnableCollapsingToolbar(songs.size)
@@ -174,7 +174,4 @@ class PlaylistDetailFragment : BaseFragment<FragmentPlaylistDetailBinding>() {
 		binding.collapsingToolbar.layoutParams = params
 	}
 	
-	companion object {
-		private val TAG = PlaylistDetailFragment::class.simpleName
-	}
 }

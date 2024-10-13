@@ -87,12 +87,12 @@ class RightFragment : BaseFragment<FragmentRightBinding>() {
 		}
 		
 		sharedViewModel.isPlaying.observe(this) { isPlaying ->
-			Logger.i(TAG, "observerLiveData: isPlaying: $isPlaying")
+			Logger.i("observerLiveData: isPlaying: $isPlaying")
 			binding.btPlayOrPause.setImageResource(if (isPlaying) R.drawable.ic_pause else R.drawable.ic_play)
 		}
 		
 		sharedViewModel.repeatMode.observe(this) { repeatMode ->
-			Logger.i(TAG, "observerLiveData: repeatMode: $repeatMode")
+			Logger.i("observerLiveData: repeatMode: $repeatMode")
 			when (repeatMode) {
 				Player.REPEAT_MODE_OFF -> binding.btRepeat.setImageResource(R.drawable.ic_repeat_off)
 				Player.REPEAT_MODE_ONE -> binding.btRepeat.setImageResource(R.drawable.ic_repeat_one)
@@ -101,12 +101,12 @@ class RightFragment : BaseFragment<FragmentRightBinding>() {
 		}
 		
 		sharedViewModel.shuffleModeEnabled.observe(this) { shuffleModeEnabled ->
-			Logger.i(TAG, "observerLiveData: shuffleModeEnabled: $shuffleModeEnabled")
+			Logger.i("observerLiveData: shuffleModeEnabled: $shuffleModeEnabled")
 			binding.btShuffle.setImageResource(if (shuffleModeEnabled) R.drawable.ic_shuffle_on else R.drawable.ic_shuffle_off)
 		}
 		
 		sharedViewModel.isCurrentSongFavorite.observe(this) { isFavorite ->
-			Logger.i(TAG, "observe isFavorite: $isFavorite")
+			Logger.i("observe isFavorite: $isFavorite")
 			isFavorite?.let {
 				binding.ivFavorite.setImageResource(
 					if (isFavorite) R.drawable.ic_favorite_on else R.drawable.ic_favorite_off
@@ -146,7 +146,7 @@ class RightFragment : BaseFragment<FragmentRightBinding>() {
 									it.currentPosition.toFloat()
 							}
 						} catch (e: Exception) {
-							Logger.e(TAG, "updateRealTimeSlider error: $e")
+							Logger.e("updateRealTimeSlider error: $e")
 						}
 						
 						tvTotalTime.text = timeFormatter().format(it.duration)
@@ -158,7 +158,4 @@ class RightFragment : BaseFragment<FragmentRightBinding>() {
 		}
 	}
 	
-	companion object {
-		private val TAG = RightFragment::class.simpleName
-	}
 }

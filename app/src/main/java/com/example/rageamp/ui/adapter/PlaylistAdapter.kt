@@ -35,7 +35,7 @@ class PlaylistAdapter(
 		}
 		
 		fun bind(playlist: Playlist) {
-			Logger.d(PLAYLIST_ADAPTER_TAG, "bind playlist: $playlist")
+			Logger.d(PLAYLIST_VIEW_HOLDER_TAG, "bind playlist: $playlist")
 			binding.tvNamePlaylist.text = playlist.name
 			val pluralResource =
 				if (playlist.songs.size > 1) R.string.songs_with_placeholder else R.string.song_with_placeholder
@@ -113,7 +113,6 @@ class PlaylistAdapter(
 	
 	companion object {
 		private val PLAYLIST_VIEW_HOLDER_TAG = PlaylistViewHolder::class.simpleName
-		private val PLAYLIST_ADAPTER_TAG = PlaylistAdapter::class.simpleName
 	}
 	
 	class ItemPlaylistCallback : DiffUtil.ItemCallback<Any>() {

@@ -71,14 +71,11 @@ class PlaylistViewModel @Inject constructor(
 	fun checkAndInsertFavoritePlaylist() {
 		if (!playlistRepository.isFavoritePlaylistExists()) {
 			viewModelScope.launch {
-				Logger.d(TAG, "Insert Favorite playlist")
+				Logger.d("Insert Favorite playlist")
 				playlistRepository.insertPlaylists(Playlist(name = "Favorite"))
 				playlistRepository.saveFavoritePlaylistExists()
 			}
 		}
 	}
 	
-	companion object {
-		private val TAG = PlaylistViewModel::class.simpleName
-	}
 }

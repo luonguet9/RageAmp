@@ -18,7 +18,7 @@ class SongViewModel @Inject constructor(
 	init {
 		viewModelScope.launch {
 			songRepository.getAllSongs().collect { songs ->
-				Logger.d(TAG, "collect songs: $songs")
+				Logger.d("collect songs: $songs")
 				_songs.value = songs
 			}
 		}
@@ -30,28 +30,25 @@ class SongViewModel @Inject constructor(
 	fun sortSongsByTitleAZ() {
 		val sortedList = _songs.value.sortedBy { it.title }
 		_songs.value = sortedList
-		Logger.d(TAG, "Songs sorted by Title (A-Z): $sortedList")
+		Logger.d("Songs sorted by Title (A-Z): $sortedList")
 	}
 	
 	fun sortSongsByTitleZA() {
 		val sortedList = _songs.value.sortedByDescending { it.title }
 		_songs.value = sortedList
-		Logger.d(TAG, "Songs sorted by Title (Z-A): $sortedList")
+		Logger.d("Songs sorted by Title (Z-A): $sortedList")
 	}
 	
 	fun sortSongsByArtist() {
 		val sortedList = _songs.value.sortedBy { it.artist }
 		_songs.value = sortedList
-		Logger.d(TAG, "Songs sorted by Artist: $sortedList")
+		Logger.d("Songs sorted by Artist: $sortedList")
 	}
 	
 	fun sortSongsByDuration() {
 		val sortedList = _songs.value.sortedBy { it.duration }
 		_songs.value = sortedList
-		Logger.d(TAG, "Songs sorted by Duration: $sortedList")
+		Logger.d("Songs sorted by Duration: $sortedList")
 	}
 	
-	companion object {
-		private val TAG = SongViewModel::class.simpleName
-	}
 }

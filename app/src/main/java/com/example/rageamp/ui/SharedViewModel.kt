@@ -27,7 +27,7 @@ class SharedViewModel @Inject constructor(
 	private val playlistRepository: PlaylistRepository
 ) : ViewModel() {
 	init {
-		Logger.d(TAG, "init----------")
+		Logger.d("init----------")
 		viewModelScope.launch {
 			songRepository.getAllSongs().collect { songList ->
 				_allSongs.value = songList
@@ -124,7 +124,7 @@ class SharedViewModel @Inject constructor(
 	}
 	
 	fun handleAddOrRemoveSongInFavoritePlaylist() {
-		_currentSong.value?.let {song->
+		_currentSong.value?.let { song ->
 			viewModelScope.launch(Dispatchers.IO) {
 				val exists = playlistRepository.isSongExistsInPlaylist(song, FAVORITE_PLAYLIST_ID)
 				if (exists) {
@@ -139,17 +139,14 @@ class SharedViewModel @Inject constructor(
 	}
 	
 	fun updateFavoriteStatus() {
-		Logger.d(TAG, "updateFavoriteStatus-------")
+		Logger.d("updateFavoriteStatus-------")
 		viewModelScope.launch(Dispatchers.IO) {
 			val exists = _currentSong.value?.let { song ->
 				playlistRepository.isSongExistsInPlaylist(song, FAVORITE_PLAYLIST_ID)
 			}
-			Logger.i(TAG, "isSongExistsInFavoritePlaylist: $exists")
+			Logger.i("isSongExistsInFavoritePlaylist: $exists")
 			_isCurrentSongFavorite.postValue(exists)
 		}
 	}
 	
-	companion object {
-		private val TAG = SharedViewModel::class.simpleName
-	}
 }

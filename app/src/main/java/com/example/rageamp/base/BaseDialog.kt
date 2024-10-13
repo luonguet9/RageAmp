@@ -48,9 +48,9 @@ abstract class BaseDialog<BINDING : ViewDataBinding> : DialogFragment() {
 			//new transaction
 			transaction = fragmentManager.beginTransaction()
 			show(transaction, tag)
-			Logger.d(TAG, "Show Dialog Success")
+			Logger.d("Show Dialog Success")
 		} catch (ignored: IllegalStateException) {
-			Logger.e(TAG, "Show Dialog throw IllegalStateException:" + ignored.message)
+			Logger.e("Show Dialog throw IllegalStateException:" + ignored.message)
 		}
 	}
 	
@@ -102,7 +102,4 @@ abstract class BaseDialog<BINDING : ViewDataBinding> : DialogFragment() {
 		)
 	}
 	
-	companion object {
-		private val TAG = BaseDialog::class.simpleName
-	}
 }

@@ -179,7 +179,8 @@
                 android:layout_marginEnd="@dimen/dp28"
                 android:layout_weight="1"
                 android:text="@string/songs"
-                android:textAllCaps="true" />
+                android:textAllCaps="true"
+                android:textColor="@color/white" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/bt_playlist"
@@ -188,7 +189,8 @@
                 android:layout_marginEnd="@dimen/dp28"
                 android:layout_weight="1"
                 android:text="@string/playlist"
-                android:textAllCaps="true" />
+                android:textAllCaps="true"
+                android:textColor="@color/white" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/bt_album"
@@ -196,7 +198,8 @@
                 android:layout_height="@dimen/button_size"
                 android:layout_weight="1"
                 android:text="@string/album"
-                android:textAllCaps="true" />
+                android:textAllCaps="true"
+                android:textColor="@color/white" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

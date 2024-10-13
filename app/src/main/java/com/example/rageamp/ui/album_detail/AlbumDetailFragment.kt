@@ -14,7 +14,6 @@ import com.example.rageamp.ui.SharedViewModel
 import com.example.rageamp.ui.adapter.SongAdapter
 import com.example.rageamp.ui.main.MainActivity
 import com.example.rageamp.utils.GlideUtils
-import com.example.rageamp.utils.Logger
 import com.google.android.material.appbar.AppBarLayout
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.abs
@@ -114,7 +113,4 @@ class AlbumDetailFragment : BaseFragment<FragmentAlbumDetailBinding>() {
 		binding.collapsingToolbar.layoutParams = params
 	}
 	
-	companion object {
-		private val TAG = AlbumDetailFragment::class.simpleName
-	}
 }

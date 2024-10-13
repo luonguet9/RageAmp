@@ -12,14 +12,13 @@ import com.bumptech.glide.request.transition.Transition
 import com.example.rageamp.R
 
 object GlideUtils {
-    private val TAG = GlideUtils::class.simpleName
     fun loadImageFromUrl(
         image: ImageView,
         url: Any?,
         options: RequestOptions? = null,
         placeholderResId: Int? = R.drawable.image_default_song
     ) {
-        Logger.i(TAG, "loadImageFromUrl url: $url")
+        Logger.i("loadImageFromUrl url: $url")
         val glideRequest = Glide.with(image.context)
             .load(url)
         
@@ -41,7 +40,7 @@ object GlideUtils {
             .error(R.drawable.image_default_song)
             .into(object : CustomTarget<Bitmap>() {
                 override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                    Logger.i(TAG, "onResourceReady: resource: $resource")
+                    Logger.i("onResourceReady: resource: $resource")
                     onFinished(resource)
                 }
                 
@@ -49,7 +48,7 @@ object GlideUtils {
                 
                 override fun onLoadFailed(errorDrawable: Drawable?) {
                     super.onLoadFailed(errorDrawable)
-                    Logger.w(TAG, "onLoadFailed: errorDrawable: $errorDrawable")
+                    Logger.w("onLoadFailed: errorDrawable: $errorDrawable")
                     /*val bitmap = (errorDrawable as BitmapDrawable).bitmap
                     onFinished(bitmap)*/
                     val bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888)

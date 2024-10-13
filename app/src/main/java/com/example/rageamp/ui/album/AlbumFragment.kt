@@ -35,7 +35,7 @@ class AlbumFragment : BaseFragment<FragmentAlbumBinding>() {
 	override fun observerLiveData() {
 		lifecycleScope.launch {
 			albumViewModel.albums.collect { albums ->
-				Logger.i(TAG, "albums: $albums")
+				Logger.i("albums: $albums")
 				albumAdapter.submitList(albums)
 			}
 		}
@@ -83,7 +83,4 @@ class AlbumFragment : BaseFragment<FragmentAlbumBinding>() {
 		albumAdapter.submitList(filteredList)
 	}
 	
-	companion object {
-		private val TAG = AlbumFragment::class.simpleName
-	}
 }
