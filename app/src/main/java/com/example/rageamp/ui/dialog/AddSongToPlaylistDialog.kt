@@ -18,6 +18,7 @@ import com.example.rageamp.databinding.DialogAddSongToPlaylistBinding
 import com.example.rageamp.ui.SharedViewModel
 import com.example.rageamp.ui.adapter.SongAdapter
 import com.example.rageamp.ui.playlist.PlaylistViewModel
+import com.example.rageamp.utils.FAVORITE_PLAYLIST_ID
 import com.example.rageamp.utils.Logger
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -61,6 +62,9 @@ class AddSongToPlaylistDialog : BaseDialog<DialogAddSongToPlaylistBinding>() {
 								songs.indexOfFirst { it.songId == song.songId },
 								song
 							)
+							if (playlist.playlistId == FAVORITE_PLAYLIST_ID) {
+								sharedViewModel.updateFavoriteStatus()
+							}
 							Toast.makeText(
 								requireContext(),
 								getString(R.string.successfully),

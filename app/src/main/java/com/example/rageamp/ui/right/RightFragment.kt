@@ -60,6 +60,13 @@ class RightFragment : BaseFragment<FragmentRightBinding>() {
 			btNext.setOnClickListener {
 				sendActionToService(MusicAction.NEXT.action)
 			}
+			
+			binding.ivFavorite.setOnClickListener {
+				sharedViewModel.currentSong.value?.let {
+					sharedViewModel.handleAddOrRemoveSongInFavoritePlaylist()
+				}
+			}
+			
 			btSongs.setOnClickListener {
 				sharedViewModel.navigate(NavigationAction.TO_SONG_FRAGMENT)
 			}
@@ -73,9 +80,10 @@ class RightFragment : BaseFragment<FragmentRightBinding>() {
 	}
 	
 	override fun observerLiveData() {
-		sharedViewModel.currentSong.observe(this) {
-			binding.song = it
+		sharedViewModel.currentSong.observe(this) { song ->
+			binding.song = song
 			updateRealTimeSlider()
+			sharedViewModel.updateFavoriteStatus()
 		}
 		
 		sharedViewModel.isPlaying.observe(this) { isPlaying ->
@@ -95,6 +103,15 @@ class RightFragment : BaseFragment<FragmentRightBinding>() {
 		sharedViewModel.shuffleModeEnabled.observe(this) { shuffleModeEnabled ->
 			Logger.i(TAG, "observerLiveData: shuffleModeEnabled: $shuffleModeEnabled")
 			binding.btShuffle.setImageResource(if (shuffleModeEnabled) R.drawable.ic_shuffle_on else R.drawable.ic_shuffle_off)
+		}
+		
+		sharedViewModel.isCurrentSongFavorite.observe(this) { isFavorite ->
+			Logger.i(TAG, "observe isFavorite: $isFavorite")
+			isFavorite?.let {
+				binding.ivFavorite.setImageResource(
+					if (isFavorite) R.drawable.ic_favorite_on else R.drawable.ic_favorite_off
+				)
+			}
 		}
 	}
 	

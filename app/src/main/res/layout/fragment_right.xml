@@ -104,37 +104,37 @@
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/bt_previous"
                 style="@style/ImageButton"
-                android:src="@drawable/ic_previous"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:src="@drawable/ic_previous" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/bt_rewind_back"
                 style="@style/ImageButton"
-                android:src="@drawable/ic_rewind_back"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:src="@drawable/ic_rewind_back" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/bt_play_or_pause"
                 style="@style/ImageButton"
-                android:src="@drawable/ic_play"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:src="@drawable/ic_play" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/bt_rewind_forward"
                 style="@style/ImageButton"
-                android:src="@drawable/ic_rewind_forward"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:src="@drawable/ic_rewind_forward" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/bt_next"
                 style="@style/ImageButton"
-                android:src="@drawable/ic_next"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:src="@drawable/ic_next" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_favorite"
+                style="@style/ImageButton"
+                android:src="@drawable/ic_favorite_off" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

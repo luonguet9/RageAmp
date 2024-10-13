@@ -81,5 +81,8 @@
         <item name="android:paddingBottom">@dimen/dp16</item>
     </style>
 
+    <style name="circle">
+        <item name="cornerSize">50%</item>
+    </style>
 
 </resources>

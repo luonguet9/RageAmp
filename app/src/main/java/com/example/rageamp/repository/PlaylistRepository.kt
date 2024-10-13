@@ -18,8 +18,9 @@ interface PlaylistRepository {
 	fun isFavoritePlaylistExists(): Boolean
 	fun saveFavoritePlaylistExists()
 	fun getAllSongsInPlaylist(playlist: Playlist): Flow<List<Song>>
-	suspend fun addSongToPlaylist(song: Song, playlist: Playlist): Boolean
-	suspend fun removeSongFromPlaylist(song: Song, playlist: Playlist)
+	suspend fun addSongToPlaylist(song: Song, playlistId: Int): Boolean
+	suspend fun removeSongFromPlaylist(song: Song, playlistId: Int)
+	suspend fun isSongExistsInPlaylist(song: Song, playlistId: Int): Boolean
 }
 
 class PlaylistRepositoryImpl @Inject constructor(
@@ -64,19 +65,19 @@ class PlaylistRepositoryImpl @Inject constructor(
 			.map { it.songs }  // Convert PlaylistWithSongs to List<Song>
 	}
 	
-	override suspend fun addSongToPlaylist(song: Song, playlist: Playlist): Boolean {
-		if (isSongExistsInPlaylist(song, playlist.playlistId)) return false
-		val crossRef = PlaylistSongCrossRef(songId = song.songId, playlistId = playlist.playlistId)
+	override suspend fun addSongToPlaylist(song: Song, playlistId: Int): Boolean {
+		if (isSongExistsInPlaylist(song, playlistId)) return false
+		val crossRef = PlaylistSongCrossRef(songId = song.songId, playlistId = playlistId)
 		playlistDao.insertPlaylistSongCrossRef(crossRef)
 		return true
 	}
 	
-	override suspend fun removeSongFromPlaylist(song: Song, playlist: Playlist) {
-		val crossRef = PlaylistSongCrossRef(songId = song.songId, playlistId = playlist.playlistId)
+	override suspend fun removeSongFromPlaylist(song: Song, playlistId: Int) {
+		val crossRef = PlaylistSongCrossRef(songId = song.songId, playlistId = playlistId)
 		playlistDao.deletePlaylistSongCrossRef(crossRef)
 	}
 	
-	private fun isSongExistsInPlaylist(song: Song, playlistId: Int): Boolean {
+	override suspend fun isSongExistsInPlaylist(song: Song, playlistId: Int): Boolean {
 		return playlistDao.isSongExistsInPlaylist(song.songId, playlistId) > 0
 	}
 }

@@ -87,11 +87,11 @@ class AlbumDetailFragment : BaseFragment<FragmentAlbumDetailBinding>() {
 		binding.tvToolbar.text = args.album.name
 		binding.tvAlbumName.text = args.album.name
 		binding.appBar.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
-			Logger.d(TAG, "totalScrollRange: ${appBarLayout.totalScrollRange}")
+//			Logger.d(TAG, "totalScrollRange: ${appBarLayout.totalScrollRange}")
 			val alpha =
 				((abs(verticalOffset.toFloat()) / (appBarLayout.totalScrollRange / 0.5).toFloat()))
-			Logger.i(TAG, "totalScrollRange: ${appBarLayout.totalScrollRange}")
-			Logger.i(TAG, "alpha: $alpha")
+//			Logger.i(TAG, "totalScrollRange: ${appBarLayout.totalScrollRange}")
+//			Logger.i(TAG, "alpha: $alpha")
 			binding.layoutAddSong.alpha = 1 - alpha
 			if (binding.layoutAddSong.alpha == alpha) {
 				binding.tvToolbar.alpha = 1F

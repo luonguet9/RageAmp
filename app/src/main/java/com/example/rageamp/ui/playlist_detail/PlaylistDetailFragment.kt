@@ -20,6 +20,7 @@ import com.example.rageamp.ui.adapter.SongAdapter
 import com.example.rageamp.ui.dialog.AddSongToPlaylistDialog
 import com.example.rageamp.ui.main.MainActivity
 import com.example.rageamp.ui.playlist.PlaylistViewModel
+import com.example.rageamp.utils.FAVORITE_PLAYLIST_ID
 import com.example.rageamp.utils.GlideUtils
 import com.example.rageamp.utils.Logger
 import com.google.android.material.appbar.AppBarLayout
@@ -93,8 +94,12 @@ class PlaylistDetailFragment : BaseFragment<FragmentPlaylistDetailBinding>() {
 				val removeItem = popupView.findViewById<TextView>(R.id.item_remove)
 				removeItem.setOnClickListener {
 					playlistViewModel.playlist?.let { playlist ->
-						playlistViewModel.removeSongFromPlaylist(song, playlist)
-						sharedViewModel.setCurrentSongs(playlist.songs)
+						playlistViewModel.removeSongFromPlaylist(song, playlist) {
+							sharedViewModel.setCurrentSongs(playlist.songs)
+							if (playlist.playlistId == FAVORITE_PLAYLIST_ID) {
+								sharedViewModel.updateFavoriteStatus()
+							}
+						}
 					}
 					popupWindow.dismiss()
 				}
@@ -142,11 +147,11 @@ class PlaylistDetailFragment : BaseFragment<FragmentPlaylistDetailBinding>() {
 		binding.tvToolbar.text = playlistViewModel.playlist?.name
 		binding.tvPlaylistName.text = playlistViewModel.playlist?.name
 		binding.appBar.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
-			Logger.d(TAG, "totalScrollRange: ${appBarLayout.totalScrollRange}")
+//			Logger.d(TAG, "totalScrollRange: ${appBarLayout.totalScrollRange}")
 			val alpha =
 				((abs(verticalOffset.toFloat()) / (appBarLayout.totalScrollRange / 0.5).toFloat()))
-			Logger.i(TAG, "totalScrollRange: ${appBarLayout.totalScrollRange}")
-			Logger.i(TAG, "alpha: $alpha")
+//			Logger.i(TAG, "totalScrollRange: ${appBarLayout.totalScrollRange}")
+//			Logger.i(TAG, "alpha: $alpha")
 			binding.layoutAddSong.alpha = 1 - alpha
 			if (binding.layoutAddSong.alpha == alpha) {
 				binding.tvToolbar.alpha = 1F

@@ -6,8 +6,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.rageamp.data.model.Song
 import com.example.rageamp.repository.PlayerModeRepository
+import com.example.rageamp.repository.PlaylistRepository
 import com.example.rageamp.repository.SongRepository
 import com.example.rageamp.repository.ThemeRepository
+import com.example.rageamp.utils.FAVORITE_PLAYLIST_ID
 import com.example.rageamp.utils.Logger
 import com.example.rageamp.utils.enums.NavigationAction
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,7 +23,8 @@ import javax.inject.Inject
 class SharedViewModel @Inject constructor(
 	private val themeRepository: ThemeRepository,
 	private val playerModeRepository: PlayerModeRepository,
-	private val songRepository: SongRepository
+	private val songRepository: SongRepository,
+	private val playlistRepository: PlaylistRepository
 ) : ViewModel() {
 	init {
 		Logger.d(TAG, "init----------")
@@ -57,6 +60,10 @@ class SharedViewModel @Inject constructor(
 	private val _repeatMode = MutableLiveData(0)
 	val repeatMode: LiveData<Int>
 		get() = _repeatMode
+	
+	private val _isCurrentSongFavorite = MutableLiveData<Boolean>()
+	val isCurrentSongFavorite: LiveData<Boolean>
+		get() = _isCurrentSongFavorite
 	
 	fun navigate(action: NavigationAction) {
 		_navigationAction.value = action
@@ -114,6 +121,32 @@ class SharedViewModel @Inject constructor(
 	
 	fun getTheme(): String {
 		return themeRepository.getTheme()
+	}
+	
+	fun handleAddOrRemoveSongInFavoritePlaylist() {
+		_currentSong.value?.let {song->
+			viewModelScope.launch(Dispatchers.IO) {
+				val exists = playlistRepository.isSongExistsInPlaylist(song, FAVORITE_PLAYLIST_ID)
+				if (exists) {
+					playlistRepository.removeSongFromPlaylist(song, FAVORITE_PLAYLIST_ID)
+				} else {
+					playlistRepository.addSongToPlaylist(song, FAVORITE_PLAYLIST_ID)
+				}
+				_isCurrentSongFavorite.postValue(!exists)
+			}
+		}
+		
+	}
+	
+	fun updateFavoriteStatus() {
+		Logger.d(TAG, "updateFavoriteStatus-------")
+		viewModelScope.launch(Dispatchers.IO) {
+			val exists = _currentSong.value?.let { song ->
+				playlistRepository.isSongExistsInPlaylist(song, FAVORITE_PLAYLIST_ID)
+			}
+			Logger.i(TAG, "isSongExistsInFavoritePlaylist: $exists")
+			_isCurrentSongFavorite.postValue(exists)
+		}
 	}
 	
 	companion object {

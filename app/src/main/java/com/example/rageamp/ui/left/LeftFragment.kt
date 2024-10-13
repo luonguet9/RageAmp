@@ -1,11 +1,13 @@
 package com.example.rageamp.ui.left
 
+import android.view.animation.LinearInterpolator
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.rageamp.R
 import com.example.rageamp.base.BaseFragment
 import com.example.rageamp.databinding.FragmentLeftBinding
 import com.example.rageamp.ui.SharedViewModel
+import com.example.rageamp.utils.GlideUtils
 import com.example.rageamp.utils.Logger
 import com.example.rageamp.utils.enums.NavigationAction
 
@@ -44,6 +46,18 @@ class LeftFragment : BaseFragment<FragmentLeftBinding>() {
 				Logger.w(TAG, "Do not perform navigation")
 			}
 		}
+		
+		sharedViewModel.currentSong.observe(this) { song ->
+			GlideUtils.loadImageFromUrl(
+				image = binding.ivSong,
+				url = song.albumArt,
+				placeholderResId = R.drawable.ic_app
+			)
+		}
+		
+		sharedViewModel.isPlaying.observe(this) { isPlaying ->
+			startOrStopAnimationImageSong(isPlaying)
+		}
 	}
 	
 	override fun onResume() {
@@ -54,6 +68,23 @@ class LeftFragment : BaseFragment<FragmentLeftBinding>() {
 	private fun navigateTo(actionId: Int) {
 		findNavController().popBackStack(findNavController().graph.startDestinationId, false)
 		findNavController().navigate(actionId)
+	}
+	
+	private fun startOrStopAnimationImageSong(isStart: Boolean = true) {
+		Logger.i(TAG, "startOrStopAnimationImageSong isStart: $isStart")
+		if (isStart) {
+			binding.ivSong.animate()
+				.rotationBy(360f)
+				.setDuration(20000)
+				.setInterpolator(LinearInterpolator())
+				.withEndAction {
+					startOrStopAnimationImageSong(sharedViewModel.isPlaying.value == true)
+				}
+				.start()
+			
+		} else {
+			binding.ivSong.animate().cancel()
+		}
 	}
 	
 	companion object {

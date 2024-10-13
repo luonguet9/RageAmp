@@ -51,16 +51,19 @@ class PlaylistViewModel @Inject constructor(
 	
 	fun addSongToPlaylist(song: Song, playlist: Playlist, onResult: (Boolean) -> Unit) {
 		viewModelScope.launch(Dispatchers.IO) {
-			val success = playlistRepository.addSongToPlaylist(song, playlist)
+			val success = playlistRepository.addSongToPlaylist(song, playlist.playlistId)
 			withContext(Dispatchers.Main) {
 				onResult(success)
 			}
 		}
 	}
 	
-	fun removeSongFromPlaylist(song: Song, playlist: Playlist) {
+	fun removeSongFromPlaylist(song: Song, playlist: Playlist, onResult: () -> Unit) {
 		viewModelScope.launch(Dispatchers.IO) {
-			playlistRepository.removeSongFromPlaylist(song, playlist)
+			playlistRepository.removeSongFromPlaylist(song, playlist.playlistId)
+			withContext(Dispatchers.Main) {
+				onResult()
+			}
 		}
 		this@PlaylistViewModel.playlist?.songs?.remove(song)
 	}
